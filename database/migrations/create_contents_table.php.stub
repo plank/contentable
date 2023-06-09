@@ -8,11 +8,11 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('contentable_table', function (Blueprint $table) {
+        Schema::create('contents', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->string('identifier');
+            $table->morphs('contentable');
+            $table->morphs('content');
             $table->timestamps();
         });
     }

@@ -1,0 +1,72 @@
+{
+    "name": "plank/contentable",
+    "description": "Create dynamic pages using polymorphic relationships and special Module classes",
+    "keywords": [
+        "plank",
+        "laravel",
+        "contentable"
+    ],
+    "homepage": "https://github.com/plank/contentable",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Massimo Triassi",
+            "email": "massimo@plankdesign.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.1",
+        "spatie/laravel-package-tools": "^1.14.0",
+        "illuminate/contracts": "^10.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.0",
+        "nunomaduro/collision": "^7.9",
+        "nunomaduro/larastan": "^2.0.1",
+        "orchestra/testbench": "^8.0",
+        "pestphp/pest": "^2.0",
+        "pestphp/pest-plugin-arch": "^2.0",
+        "pestphp/pest-plugin-laravel": "^2.0",
+        "phpstan/extension-installer": "^1.1",
+        "phpstan/phpstan-deprecation-rules": "^1.0",
+        "phpstan/phpstan-phpunit": "^1.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Plank\\Contentable\\": "src/",
+            "Plank\\Contentable\\Database\\Factories\\": "database/factories/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Plank\\Contentable\\Tests\\": "tests/"
+        }
+    },
+    "scripts": {
+        "post-autoload-dump": "@php ./vendor/bin/testbench package:discover --ansi",
+        "analyse": "vendor/bin/phpstan analyse",
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage",
+        "format": "vendor/bin/pint"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "pestphp/pest-plugin": true,
+            "phpstan/extension-installer": true
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Plank\\Contentable\\ContentableServiceProvider"
+            ],
+            "aliases": {
+                "Contentable": "Plank\\Contentable\\Facades\\Contentable"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

@@ -19,7 +19,7 @@ class ContentableServiceProvider extends PackageServiceProvider
             ->name('contentable')
             ->hasConfigFile()
             ->hasViews()
-            ->hasMigration('create_contentable_table')
+            ->hasMigration('create_contents_table')
             ->hasCommand(ContentableCommand::class);
     }
 }

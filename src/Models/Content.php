@@ -17,11 +17,11 @@ class Content extends Model
 
     public function contentable(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('contentable', 'contentable_type', 'contentable_id');
     }
 
     public function content(): MorphTo
     {
-        return $this->morphTo();
+        return $this->morphTo('contentable', 'content_type', 'content_id');
     }
 }

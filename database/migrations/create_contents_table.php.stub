@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
-            $table->string('identifier');
+            $table->string('identifier')->nullable();
             $table->morphs('contentable');
             $table->morphs('content');
             $table->timestamps();

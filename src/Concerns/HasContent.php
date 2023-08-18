@@ -2,22 +2,12 @@
 
 namespace Plank\Contentable\Concerns;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Plank\Contentable\Contracts\ContentInterface;
 
 trait HasContent
 {
-    public function content(): MorphMany
+    public function attachContent(ContentInterface $content)
     {
-        return $this->morphMany(config('contentable.model'), 'contentable', 'contentable_type', 'contentable_id');
-    }
-
-    public function saveContent($content)
-    {
-        return $this->content()
-            ->make()
-            ->content()
-            ->associate($content)
-            ->save();
+        return $this->content()->attach($content, ['contentable_type' => self::class]);
     }
 }

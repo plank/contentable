@@ -31,11 +31,13 @@ class ContentableServiceProvider extends PackageServiceProvider
         // https://laravel.com/docs/10.x/eloquent-relationships#dynamic-relationships
         foreach ($contents as $content) {
             foreach ($contentables as $contentable) {
+                $relationContent = str($content)->afterLast("\\")->lower()->plural();
+                $relationContentable = str($contentable)->afterLast("\\")->lower()->plural();
                 $content::resolveRelationUsing('contentable', function ($content) use ($contentable) {
-                    return $content->morphedByMany($contentable, 'contentable', 'contents', 'content_id');
+                    return $content->morphedByMany($contentable, 'contentable', 'contentables', 'content_id');
                 });
                 $contentable::resolveRelationUsing('content', function ($contentable) use ($content) {
-                   return $contentable->morphedByMany($content, 'content', 'contents', 'contentable_id');
+                   return $contentable->morphedByMany($content, 'content', 'contentables', 'contentable_id');
                 });
             }
         }

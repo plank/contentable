@@ -2,12 +2,16 @@
 
 namespace Plank\Contentable\Contracts;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+
 interface RenderableInterface
 {
 
-    public function asHtml();
+    public function renderHtml(): string;
 
-    public function asJson();
+    public function renderJson(): string;
 
-    public function renderableField();
+    public function renderableFields(): array;
+
+    public function renderable(): MorphMany;
 }

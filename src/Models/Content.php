@@ -10,18 +10,18 @@ class Content extends Model
     protected $fillable = [
         'contentable_id',
         'contentable_type',
-        'content_id',
-        'content_type',
+        'renderable_id',
+        'renderable_type',
         'identifier'
     ];
 
-    public function contentable(): MorphTo
+    public function renderable()
     {
-        return $this->morphTo('contentable', 'contentable_type', 'contentable_id');
+        return $this->morphTo();
     }
 
-    public function content(): MorphTo
+    public function contentable()
     {
-        return $this->morphTo('contentable', 'content_type', 'content_id');
+        return $this->morphTo();
     }
 }

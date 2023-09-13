@@ -28,9 +28,13 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_contentable_table.php.stub';
+        $migration = include __DIR__.'/Migrations/0000_00_00_000001_create_fake_module_table.php';
         $migration->up();
-        */
+
+        $migration = include __DIR__.'/Migrations/0000_00_00_000002_create_pages_table.php';
+        $migration->up();
+
+        $migration = include __DIR__.'/Migrations/0000_00_00_000003_create_contents_table.php';
+        $migration->up();
     }
 }

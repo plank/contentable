@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Cache;
 use Plank\Contentable\Contracts\ContentInterface;
 use Plank\Contentable\Contracts\RenderableInterface;
-use Plank\Contentable\Models\Content;
 
 trait HasContent
 {
     public function contents(): MorphMany
     {
-        return $this->morphMany(Content::class, 'contentable');
+        $contentModel = config('contentable.model');
+        return $this->morphMany($contentModel, 'contentable');
     }
 
     public function scopeInRenderableOrder(Builder $q): void

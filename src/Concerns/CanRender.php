@@ -2,15 +2,14 @@
 
 namespace Plank\Contentable\Concerns;
 
-
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Plank\Contentable\Models\Content;
 
 trait CanRender
 {
     public function renderable(): MorphMany
     {
-        return $this->morphMany(Content::class, 'renderable');
+        $contentModel = config('contentable.model');
+        return $this->morphMany($contentModel, 'renderable');
     }
 
     /**

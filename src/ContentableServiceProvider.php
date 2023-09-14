@@ -2,8 +2,6 @@
 
 namespace Plank\Contentable;
 
-use Illuminate\Database\Eloquent\Model;
-use Plank\Contentable\Contracts\ContentInterface;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use Plank\Contentable\Commands\ContentableCommand;

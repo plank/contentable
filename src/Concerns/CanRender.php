@@ -30,7 +30,6 @@ trait CanRender
      */
     public function renderableFields(): array
     {
-        $defaults = ['title', 'content'];
-        return property_exists($this, 'renderableFields') ? $this->renderableFields : $defaults;
+        return $this->renderableFields ?? ['title', 'content'];
     }
 }

@@ -18,29 +18,29 @@ trait HasContent
 
     public function scopeInRenderableOrder(Builder $q): void
     {
-        $q->orderBy('id');
+        $q->orderBy($this->renderOrderColumnField());
     }
 
     public function attachContent(RenderableInterface $renderable, $identifier = null)
     {
-        if (Cache::has("contentable.html.{$this->id}")) {
-            Cache::delete("contentable.html.{$this->id}");
+        if (Cache::has("contentable.html.{$this->getKey()}")) {
+            Cache::delete("contentable.html.{$this->getKey()}");
         }
 
-        if (Cache::has("contentable.json.{$this->id}")) {
-            Cache::delete("contentable.json.{$this->id}");
+        if (Cache::has("contentable.json.{$this->getKey()}")) {
+            Cache::delete("contentable.json.{$this->getKey()}");
         }
 
         return $this->contents()->create(array_merge([
             'renderable_type' => $renderable::class,
-            'renderable_id' => $renderable->id
+            'renderable_id' => $renderable->getKey()
         ], $identifier ? ['identifier' => $identifier] : []));
     }
 
     public function renderHtml(): string
     {
-        if (Cache::has("contentable.html.{$this->id}")) {
-            return Cache::get("contentable.html.{$this->id}");
+        if (Cache::has("contentable.html.{$this->getKey()}")) {
+            return Cache::get("contentable.html.{$this->getKey()}");
         }
 
         $output = "";
@@ -48,15 +48,15 @@ trait HasContent
             $output .= $content->renderable->renderHtml() . "\n";
         }
 
-        Cache::put("contentable.html.{$this->id}", $output, 10800);
+        Cache::put("contentable.html.{$this->getKey()}", $output, 10800);
 
         return $output;
     }
 
     public function renderJson(): string
     {
-        if (Cache::has("contentable.json.{$this->id}")) {
-            return Cache::get("contentable.json.{$this->id}");
+        if (Cache::has("contentable.json.{$this->getKey()}")) {
+            return Cache::get("contentable.json.{$this->getKey()}");
         }
 
         $output = [];
@@ -70,5 +70,10 @@ trait HasContent
         Cache::put("contentable.json.{$this->id}", $output, 10800);
 
         return $output;
+    }
+
+    public function renderOrderColumnField()
+    {
+        return $this->render_order_column ?? $this->getKeyName();
     }
 }

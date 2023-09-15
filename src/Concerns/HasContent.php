@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\Cache;
 use Plank\Contentable\Contracts\ContentInterface;
 use Plank\Contentable\Contracts\RenderableInterface;
+use Plank\Contentable\Facades\Contentable;
 
 trait HasContent
 {
@@ -23,13 +24,7 @@ trait HasContent
 
     public function attachContent(RenderableInterface $renderable, $identifier = null)
     {
-        if (Cache::has("contentable.html.{$this->getKey()}")) {
-            Cache::delete("contentable.html.{$this->getKey()}");
-        }
-
-        if (Cache::has("contentable.json.{$this->getKey()}")) {
-            Cache::delete("contentable.json.{$this->getKey()}");
-        }
+        Contentable::clearCache($this->getKey());
 
         return $this->contents()->create(array_merge([
             'renderable_type' => $renderable::class,

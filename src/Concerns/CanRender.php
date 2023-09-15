@@ -19,7 +19,6 @@ trait CanRender
      */
     public function renderJson($fields = []): string
     {
-        // Given `toJson()` exists on eloquent already, do we need this?
         return json_encode($this->only($fields ?: $this->renderableFields()));
     }
 

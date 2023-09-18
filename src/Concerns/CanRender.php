@@ -3,21 +3,32 @@
 namespace Plank\Contentable\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Event;
 use Plank\Contentable\Contracts\RenderableInterface;
 use Plank\Contentable\Facades\Contentable;
 
 trait CanRender
 {
-
     public static function bootCanRender()
     {
-        Event::listen('updated', function (RenderableInterface $module) {
+        static::updated(function (RenderableInterface $module) {
             foreach ($module->renderable as $content) {
                 Contentable::clearCache($content->contentable->getKey());
             }
         });
+
+        static::deleted(function (RenderableInterface $module) {
+            foreach ($module->renderable as $content) {
+                Contentable::clearCache($content->contentable->getKey());
+            }
+        });
+
+        if (method_exists(new self(), 'bootSoftDeletes')) {
+            static::restored(function (RenderableInterface $module) {
+                foreach ($module->renderable as $content) {
+                    Contentable::clearCache($content->contentable->getKey());
+                }
+            });
+        }
     }
 
     public function renderable(): MorphMany
@@ -43,6 +54,7 @@ trait CanRender
      */
     public function renderableFields(): array
     {
-        return $this->renderableFields ?? ['title', 'content'];
+        return property_exists($this,'renderableFields') ? $this->renderableFields : ['title', 'content'];
+//        return $this->renderableFields ?? ['title', 'content'];
     }
 }

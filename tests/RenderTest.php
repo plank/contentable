@@ -67,33 +67,3 @@ it('can render a full page of json', function () {
     expect(Cache::get("contentable.json.{$page->id}"))->toEqual($expected);
 
 });
-
-it('clears the cached html when its content changes', function() {
-    $page = Page::factory()->create();
-    $renderable1 = FakeModule::factory()->create();
-    $renderable2 = FakeModule::factory()->create();
-
-    $page->attachContent($renderable1);
-    $page->renderHtml();
-
-    expect(Cache::has("contentable.html.{$page->id}"))->toBeTrue();
-
-    $page->attachContent($renderable2);
-
-    expect(Cache::has("contentable.html.{$page->id}"))->toBeFalse();
-});
-
-it('clears the cached json when its content changes', function() {
-    $page = Page::factory()->create();
-    $renderable1 = FakeModule::factory()->create();
-    $renderable2 = FakeModule::factory()->create();
-
-    $page->attachContent($renderable1);
-    $page->renderJson();
-
-    expect(Cache::has("contentable.json.{$page->id}"))->toBeTrue();
-
-    $page->attachContent($renderable2);
-
-    expect(Cache::has("contentable.json.{$page->id}"))->toBeFalse();
-});

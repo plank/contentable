@@ -42,6 +42,8 @@ it('clears cache if a renderable attached to a contentable is updated', function
     $page2->attachContent($renderable);
 
     $page1->renderHtml();
+    $page1->renderJson();
+    $page2->renderHtml();
     $page2->renderJson();
 
     expect(Cache::has("contentable.json.{$page1->id}"))->toBeTrue();

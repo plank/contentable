@@ -37,7 +37,7 @@ trait HasContent
             }));
         }
 
-        return $this->contents()->create(array_merge($this->formatKeys(), $identifier ? ['identifier' => $identifier] : []));
+        return $this->contents()->create(array_merge($this->formatKeys($renderable), $identifier ? ['identifier' => $identifier] : []));
     }
 
     public function syncContent($renderables, $detaching = true)

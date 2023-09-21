@@ -43,21 +43,19 @@ trait HasContent
     public function syncContent($renderables, $detaching = true)
     {
         $changes = [
-            'attached' => [], 'detached' => [], 'updated' => []
+            'attached' => [], 'detached' => []
         ];
 
-        if (is_array($renderables)) {
+        if (is_array($renderables) || $renderables instanceof RenderableInterface) {
             $renderables = collect($renderables);
         }
 
         // get all renderables attached currently
-        $current = $this->contents->pluck('renderable_type', 'renderable_id');
+        $current = $this->contents->pluck('renderable');
 
         // Prep input renderables for merge
         // If input not a collection parse to a collection?
-        $records = $renderables->mapWithKeys(function ($renderable) {
-            return [$renderable->getKey() => $renderable::class];
-        });
+        $records = $renderables->diff($current);
 
         // merge currently attached renderables with input renderables
         // might need to make sure renderables that have been updated _overwrite_ instead of becoming a sibling
@@ -71,39 +69,43 @@ trait HasContent
             }
         }
 
-        $changes = array_merge($changes, ['attached' => $this->formatKeys($this->attachContent($renderables))]);
+        // Touch parent object?
 
-        // Touch parent?
-
-        return $changes;
+        return array_merge($changes, ['attached' => $this->formatKeys($this->attachContent($records))]);
 
     }
 
     public function detachContent(RenderableInterface|Collection|array $renderables)
     {
         $contentModel = config('contentable.model');
-        // TODO: implement me
+
+        if ($renderables instanceof  RenderableInterface) {
+            $renderables = [$renderables->getKey() => $renderables::class];
+        }
+
+        // this can be improved to look at the context of each renderable type rather than each record, 1 by 1
+        // ie: delete all moduleA whereIn [ids...], ModuleB where in [ids...]
+        foreach ($renderables as $renderable) {
+            $contentModel::where('contentable_id', $this->getKey())
+                ->where('contentable_type', self::class)
+                ->where('renderable_id', $renderable->getKey())
+                ->where('renderable_type', $renderable::class)
+                ->delete();
+        }
     }
 
     private function formatKeys(RenderableInterface|Collection|array $renderables)
     {
-        if (is_array($renderables)) {
+        if (is_array($renderables) || $renderables instanceof RenderableInterface) {
             $renderables = collect($renderables);
         }
 
-        if ($renderables instanceof Collection) {
-            return $renderables->map(function ($renderable) {
-                return [
-                    'renderable_type' => $renderable::class,
-                    'renderable_id' => $renderable->getKey()
-                ];
-            })->all();
-        }
-
-        return [
-            'renderable_type' => $renderables::class,
-            'renderable_id' => $renderables->getKey()
-        ];
+        return $renderables->map(function ($renderable) {
+            return [
+                'renderable_type' => $renderable::class,
+                'renderable_id' => $renderable->getKey()
+            ];
+        })->all();
     }
 
     public function renderHtml(): string

@@ -37,7 +37,8 @@ trait HasContent
             }));
         }
 
-        return $this->contents()->create(array_merge($this->formatKeys($renderable), $identifier ? ['identifier' => $identifier] : []));
+        $attach = array_merge($this->formatKeys($renderable), $identifier ? ['identifier' => $identifier] : []);
+        return collect([$this->contents()->create($attach)]);
     }
 
     public function syncContent($renderables, $detaching = true)
@@ -59,7 +60,7 @@ trait HasContent
         $contentModel = config('contentable.model');
 
         if ($renderables instanceof  RenderableInterface) {
-            $renderables = [$renderables->getKey() => $renderables::class];
+            $renderables = [$renderables];
         }
 
         // this can be improved to look at the context of each renderable type rather than each record, 1 by 1

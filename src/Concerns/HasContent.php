@@ -46,32 +46,11 @@ trait HasContent
             'attached' => [], 'detached' => []
         ];
 
-        if (is_array($renderables) || $renderables instanceof RenderableInterface) {
-            $renderables = collect($renderables);
-        }
+        // get intersect of input and attached
 
-        // get all renderables attached currently
-        $current = $this->contents->pluck('renderable');
+        // diff intersect from attached --> this gives detaching
 
-        // Prep input renderables for merge
-        // If input not a collection parse to a collection?
-        $records = $renderables->diff($current);
-
-        // merge currently attached renderables with input renderables
-        // might need to make sure renderables that have been updated _overwrite_ instead of becoming a sibling
-        if ($detaching) {
-            $detach = $current->diff($records);
-
-            // diff away things from currently attached that are not in input array
-            if (count($detach) > 0) {
-                $this->detachContent($detach);
-                $changes['detached'] = $detach;
-            }
-        }
-
-        // Touch parent object?
-
-        return array_merge($changes, ['attached' => $this->formatKeys($this->attachContent($records))]);
+        // diff intersect from input --> this gives attaching
 
     }
 
@@ -96,7 +75,15 @@ trait HasContent
 
     private function formatKeys(RenderableInterface|Collection|array $renderables)
     {
-        if (is_array($renderables) || $renderables instanceof RenderableInterface) {
+
+        if ($renderables instanceof RenderableInterface) {
+            return [
+                'renderable_type' => $renderables::class,
+                'renderable_id' => $renderables->getKey()
+            ];
+        }
+
+        if (is_array($renderables)) {
             $renderables = collect($renderables);
         }
 

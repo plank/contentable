@@ -8,7 +8,7 @@ it('can attach new renderables to a piece of content', function () {
     $page = Page::factory()->create();
     $renderable = FakeModule::factory()->create();
 
-    $page->attachContent($renderable, "Fake Identifier");
+    $attached = $page->attachContent($renderable, "Fake Identifier")->first();
 
     expect($page->contents)
         ->toHaveCount(1);
@@ -16,6 +16,12 @@ it('can attach new renderables to a piece of content', function () {
     $module = $page->contents->first();
     expect($module->identifier)->toEqual("Fake Identifier");
     expect($module->renderable)->toEqual($renderable->fresh());
+
+    expect($attached->renderable_id)->toEqual($renderable->id);
+    expect($attached->renderable_type)->toEqual($renderable::class);
+    expect($attached->contentable_id)->toEqual($page->id);
+    expect($attached->contentable_type)->toEqual($page::class);
+
 });
 
 
@@ -43,7 +49,7 @@ it('can sync new renderables to a piece of content', function () {
 
     $page->syncContent($sync);
 
-    $attached = $page->contents->pluck('renderable_type', 'renderable_id')->all();
+    $attached = $page->fresh()->contents->pluck('renderable_type', 'renderable_id')->all();
     $expected = [
         1 => FakeModule::class,
         3 => FakeModule::class,

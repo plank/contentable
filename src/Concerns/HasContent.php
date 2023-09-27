@@ -3,10 +3,10 @@
 namespace Plank\Contentable\Concerns;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Plank\Contentable\Contracts\ContentInterface;
 use Plank\Contentable\Contracts\RenderableInterface;
 use Plank\Contentable\Facades\Contentable;
 
@@ -48,11 +48,31 @@ trait HasContent
         ];
 
         // get intersect of input and attached
+        // Diff on collection of models only works when both collections are a Eloquent Collection.
+        $attached = EloquentCollection::make($this->contents->pluck('renderable'));
+        $intersect = $renderables->intersect($attached);
 
         // diff intersect from attached --> this gives detaching
+        if ($detaching) {
+            $detach = $attached->diff($intersect);
+
+            if (count($detach) > 0) {
+                $this->detachContent($detach);
+                $changes['detached'] = $this->formatKeys($detach);
+            }
+        }
 
         // diff intersect from input --> this gives attaching
+        $attach = $renderables->diff($intersect);
+        if (count($attach) > 0) {
+            $changes['attached'] = $this->formatKeys($this->attachContent($attach)->pluck('renderable'));
+        }
 
+        if (count($changes['attached']) + count($changes['detached']) > 0) {
+            $this->touch();
+        }
+
+        return $changes;
     }
 
     public function detachContent(RenderableInterface|Collection|array $renderables)

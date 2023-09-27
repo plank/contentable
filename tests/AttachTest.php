@@ -28,6 +28,7 @@ it('can attach new renderables to a piece of content', function () {
 it('can sync new renderables to a piece of content', function () {
     $page = Page::factory()->create();
     $renderables = FakeModule::factory(2)->create();
+    $updated_at = $page->updated_at;
 
     Content::create([
         'contentable_id' => $page->id,
@@ -46,6 +47,9 @@ it('can sync new renderables to a piece of content', function () {
     // add 2 new modules, keep the first module, but de-sync the second module
     // ids: 1, 3, 4
     $sync = FakeModule::factory(2)->create()->merge([$renderables[0]]);
+    
+    // simulate some time passing
+    $this->travel(3)->hours();
 
     $page->syncContent($sync);
 
@@ -58,6 +62,8 @@ it('can sync new renderables to a piece of content', function () {
 
     expect($attached)->toEqual($expected);
     expect($page->fresh()->contents->pluck('renderable_id')->all())->toEqual([1,3,4]);
+    expect($page->fresh()->updated_at)->not()->toEqual($updated_at);
+
 
 });
 

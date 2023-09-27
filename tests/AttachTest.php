@@ -57,6 +57,7 @@ it('can sync new renderables to a piece of content', function () {
     ];
 
     expect($attached)->toEqual($expected);
+    expect($page->fresh()->contents->pluck('renderable_id')->all())->toEqual([1,3,4]);
 
 });
 

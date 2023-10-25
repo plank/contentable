@@ -127,7 +127,7 @@ trait HasContent
             $output .= $content->renderable->renderHtml() . "\n";
         }
 
-        Cache::put("contentable.html.{$this->getKey()}", $output, 10800);
+        Cache::put("contentable.html.{$this->getKey()}", $output, config('contentable.cache.ttl'));
 
         return $output;
     }
@@ -146,7 +146,7 @@ trait HasContent
 
         $output = json_encode($output);
 
-        Cache::put("contentable.json.{$this->id}", $output, 10800);
+        Cache::put("contentable.json.{$this->id}", $output, config('contentable.cache.ttl'));
 
         return $output;
     }

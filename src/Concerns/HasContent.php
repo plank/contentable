@@ -23,7 +23,7 @@ trait HasContent
         $q->orderBy($this->renderOrderColumnField());
     }
 
-    public function attachContent(RenderableInterface|Collection|array $renderable, $identifier = null)
+    public function attachContent(RenderableInterface|Collection|array $renderable, $identifier = null): Collection
     {
         Contentable::clearCache($this->getKey());
 
@@ -41,7 +41,7 @@ trait HasContent
         return collect([$this->contents()->create($attach)]);
     }
 
-    public function syncContent($renderables, $detaching = true)
+    public function syncContent($renderables, $detaching = true): array
     {
         $changes = [
             'attached' => [], 'detached' => []
@@ -50,7 +50,7 @@ trait HasContent
         // get intersect of input and attached
         // Diff on collection of models only works when both collections are an Eloquent Collection.
         $attached = EloquentCollection::make($this->contents->pluck('renderable'));
-        $intersect = $renderables->intersect($attached);
+        $intersect = EloquentCollection::wrap($renderables)->intersect($attached);
 
         // diff intersect from attached --> this gives detaching
         if ($detaching) {

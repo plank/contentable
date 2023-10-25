@@ -75,28 +75,28 @@ trait HasContent
         return $changes;
     }
 
-    public function detachContent(RenderableInterface|Collection|array $renderables)
+    public function detachContent(RenderableInterface|Collection|array $renderables): void
     {
         $contentModel = config('contentable.model');
 
-        if ($renderables instanceof  RenderableInterface) {
-            $renderables = [$renderables];
+        $renderables = EloquentCollection::wrap($renderables);
+
+        $classes = [];
+        foreach ($renderables as $renderable) {
+            $classes[$renderable::class][] = $renderable->getKey();
         }
 
-        // this can be improved to look at the context of each renderable type rather than each record, 1 by 1
-        // ie: delete all moduleA whereIn [ids...], ModuleB where in [ids...]
-        foreach ($renderables as $renderable) {
+        foreach ($classes as $class => $ids) {
             $contentModel::where('contentable_id', $this->getKey())
                 ->where('contentable_type', self::class)
-                ->where('renderable_id', $renderable->getKey())
-                ->where('renderable_type', $renderable::class)
+                ->where('renderable_type', $class)
+                ->whereIn('renderable_id', $ids)
                 ->delete();
         }
     }
 
     private function formatKeys(RenderableInterface|Collection|array $renderables)
     {
-
         if ($renderables instanceof RenderableInterface) {
             return [
                 'renderable_type' => $renderables::class,

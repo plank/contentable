@@ -8,12 +8,16 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('contentable_table', function (Blueprint $table) {
+        Schema::create('templates', function (Blueprint $table) {
             $table->id();
-
-            // add fields
-
+            $table->foreignId('layout_id')->constrained()->cascadeOnDelete();
+            $table->morphs('layoutable');
             $table->timestamps();
         });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('templates');
     }
 };

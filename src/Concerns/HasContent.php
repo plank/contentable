@@ -23,6 +23,13 @@ trait HasContent
         $q->orderBy($this->renderOrderColumnField());
     }
 
+    /**
+     * Attach one or many pieces of content to this Contentable
+     *
+     * @param RenderableInterface|Collection|array $renderable either a single instance of RenderableInterface or a collection/array of them.
+     * @param $identifier
+     * @return Collection
+     */
     public function attachContent(RenderableInterface|Collection|array $renderable, $identifier = null): Collection
     {
         Contentable::clearCache($this->getKey());
@@ -41,6 +48,13 @@ trait HasContent
         return collect([$this->contents()->create($attach)]);
     }
 
+    /**
+     * Update the models attached via the contents() relation to match the passed collection of $renderables.
+     *
+     * @param RenderableInterface|Collection|array $renderables either a single instance of RenderableInterface or a collection/array of them.
+     * @param bool $detaching
+     * @return array[]
+     */
     public function syncContent(RenderableInterface|Collection|array $renderables, bool $detaching = true): array
     {
         $changes = [
@@ -76,6 +90,12 @@ trait HasContent
         return $changes;
     }
 
+    /**
+     * Remove passed renderables from this contentables contents() relation.
+     *
+     * @param RenderableInterface|Collection|array $renderables either a single instance of RenderableInterface or a collection/array of them.
+     * @return void
+     */
     public function detachContent(RenderableInterface|Collection|array $renderables): void
     {
         $contentModel = config('contentable.model');

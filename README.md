@@ -1,19 +1,30 @@
-# Create dynamic pages using polymorphic relationships and special Module classes
+<p align="center"><a href="https://plank.co"><img src="art/contentable.png" width="100%"></a></p>
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/plank/contentable.svg?style=flat-square)](https://packagist.org/packages/plank/contentable)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/plank/contentable/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/plank/contentable/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/plank/contentable/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/plank/contentable/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
-[![Total Downloads](https://img.shields.io/packagist/dt/plank/contentable.svg?style=flat-square)](https://packagist.org/packages/plank/contentable)
+<p align="center">
+<a href="https://packagist.org/packages/plank/contentable"><img src="https://img.shields.io/packagist/php-v/plank/contentable?color=%23fae370&label=php&logo=php&logoColor=%23fff" alt="PHP Version Support"></a>
+<a href="https://github.com/plank/contentable/actions?query=workflow%3Arun-tests"><img src="https://img.shields.io/github/actions/workflow/status/plank/contentable/run-tests.yml?branch=main&&color=%23bfc9bd&label=run-tests&logo=github&logoColor=%23fff" alt="GitHub Workflow Status"></a>
+<a href="https://codeclimate.com/github/plank/contentable/test_coverage"><img src="https://img.shields.io/codeclimate/coverage/plank/contentable?color=%23ff9376&label=test%20coverage&logo=code-climate&logoColor=%23fff" /></a>
+<a href="https://codeclimate.com/github/plank/contentable/maintainability"><img src="https://img.shields.io/codeclimate/maintainability/plank/contentable?color=%23528cff&label=maintainablility&logo=code-climate&logoColor=%23fff" /></a>
+</p>
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+# Laravel Contentable
 
-## Support us
+⚠️ This package is currently in development and is not ready for production use. ⚠️
 
-[<img src="https://github-ads.s3.eu-central-1.amazonaws.com/contentable.jpg?t=1" width="419px" />](https://spatie.be/github-ad-click/contentable)
+Contentable is an opinionated way of representing content within your application. Its goal is to provide, flexibiliy, structure and consistency to your content, so you can leverage it to the fullest.
 
-We invest a lot of resources into creating [best in class open source packages](https://spatie.be/open-source). You can support us by [buying one of our paid products](https://spatie.be/open-source/support-us).
+## Table of Contents
 
-We highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using. You'll find our address on [our contact page](https://spatie.be/about-us). We publish all received postcards on [our virtual postcard wall](https://spatie.be/open-source/postcards).
+- [Installation](#installation)
+- [Quick Start](#quick-start)
+- [Configuration](#configuration)
+- [Usage](#usage)
+- [Contributing](#contributing)
+- [Credits](#credits)
+- [License](#license)
+- [Security Vulnerabilities](#security-vulnerabilities)
+
+&nbsp;
 
 ## Installation
 
@@ -23,62 +34,57 @@ You can install the package via composer:
 composer require plank/contentable
 ```
 
-You can publish and run the migrations with:
+You can use the package's install command to complete the installation:
 
 ```bash
-php artisan vendor:publish --tag="contentable-migrations"
-php artisan migrate
+php artisan contentable:install
 ```
 
-You can publish the config file with:
+## Quick Start
+
+Once the installation has completed, to begin using the package:
+
+
+## Configuration
+
+The package's configuration file is located at `config/contentable.php`. If you did not publish the config file during installation, you can publish the configuration file using the following command:
 
 ```bash
-php artisan vendor:publish --tag="contentable-config"
+php artisan vendor:publish --tag=contentable-config
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="contentable-views"
-```
+&nbsp;
 
 ## Usage
 
-```php
-$contentable = new Plank\Contentable();
-echo $contentable->echoPhrase('Hello, Plank!');
-```
+### Layouts
 
-## Testing
+### Layoutables
 
-```bash
-composer test
-```
+### LayoutData
 
-## Changelog
-
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
+&nbsp;
 
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
 
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
+&nbsp;
 
 ## Credits
 
+- [Kurt Friars](https://github.com/kfriars)
 - [Massimo Triassi](https://github.com/m-triassi)
 - [All Contributors](../../contributors)
+
+&nbsp;
 
 ## License
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
+
+&nbsp;
+
+## Security Vulnerabilities
+
+If you discover a security vulnerability within siren, please send an e-mail to [security@plankdesign.com](mailto:security@plankdesign.com). All security vulnerabilities will be promptly addressed.

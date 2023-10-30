@@ -13,8 +13,16 @@ class TestCase extends Orchestra
         parent::setUp();
 
         Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'Plank\\Contentable\\Database\\Factories\\'.class_basename($modelName).'Factory'
+            fn (string $modelName) => 'Plank\\Contentable\\Tests\\Helper\\Database\\Factories\\'.class_basename($modelName).'Factory'
         );
+
+        $this->artisan('migrate', [
+            '--path' => realpath(__DIR__).'/Helper/Database/Migrations',
+            '--realpath' => true,
+        ])->run();
+
+        config(['contentable.layouts.namespace' => 'Plank\\Contentable\\Tests\\Helper\\Layouts']);
+        config(['contentable.layouts.model' => 'Plank\\Contentable\\Tests\\Helper\\Models\\Layout']);
     }
 
     protected function getPackageProviders($app)
@@ -27,10 +35,5 @@ class TestCase extends Orchestra
     public function getEnvironmentSetUp($app)
     {
         config()->set('database.default', 'testing');
-
-        /*
-        $migration = include __DIR__.'/../database/migrations/create_contentable_table.php.stub';
-        $migration->up();
-        */
     }
 }

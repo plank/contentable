@@ -1,0 +1,6 @@
+{
+    "key": "products.index",
+    "props": {
+        "perPage": 15
+    }
+}

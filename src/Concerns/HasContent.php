@@ -49,8 +49,9 @@ trait HasContent
 
         // get intersect of input and attached
         // Diff on collection of models only works when both collections are an Eloquent Collection.
+        $renderables = EloquentCollection::wrap($renderables);
         $attached = EloquentCollection::make($this->contents->pluck('renderable'));
-        $intersect = EloquentCollection::wrap($renderables)->intersect($attached);
+        $intersect = $renderables->intersect($attached);
 
         // diff intersect from attached --> this gives detaching
         if ($detaching) {

@@ -20,7 +20,8 @@ use Plank\Contentable\Tests\Helper\Models\Product;
 
 describe('it resolves data classes correctly', function () {
     it('returns empty prop data on basic layout data', function () {
-        $data = new class extends AbstractLayoutData {
+        $data = new class extends AbstractLayoutData
+        {
             public function __construct()
             {
                 parent::__construct('basic');
@@ -28,7 +29,7 @@ describe('it resolves data classes correctly', function () {
 
             public static function from(string|Layoutable|LayoutContract $model): static
             {
-                return new static('basic');
+                return new self('basic');
             }
         };
 
@@ -94,15 +95,15 @@ describe('it composes prop data for layouts', function () {
         $app = Layout::factory()->create([
             'identifier' => 'app',
         ]);
-    
+
         $header = Menu::factory()
             ->has(MenuItem::factory()->count(5), 'items')
             ->create();
-    
+
         $footer = Menu::factory()
             ->has(MenuItem::factory()->count(3), 'items')
             ->create();
-    
+
         $app->menus()->sync([
             $header->id => ['key' => 'header'],
             $footer->id => ['key' => 'footer'],
@@ -139,7 +140,7 @@ describe('it composes prop data for layouts', function () {
         $promotionLayout = Layout::factory()->create([
             'identifier' => 'promotion',
             'meta' => [
-                'discount' => 10
+                'discount' => 10,
             ],
         ]);
 

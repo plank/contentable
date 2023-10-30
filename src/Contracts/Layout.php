@@ -36,7 +36,7 @@ interface Layout
      *    "menu_items.show" => MenuItemLayoutData
      *    "menu_items.index" => MenuItemIndexLayoutData
      *    "app" => AppLayoutData
-     * 
+     *
      * @return class-string<AbstractLayoutData>|null
      */
     public static function dataClassFromKey(string $key): ?string;

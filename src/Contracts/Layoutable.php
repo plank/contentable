@@ -14,7 +14,7 @@ interface Layoutable
 
     /**
      * Get the layout data for the model
-     * 
+     *
      * @throws LayoutDataNotFoundException
      */
     public function layoutData(): AbstractLayoutData;
@@ -44,7 +44,7 @@ interface Layoutable
 
     /**
      * Allow the model's class to define a layout for its index
-     * 
+     *
      * @throws LayoutDataNotFoundException
      */
     public static function indexLayoutData(): AbstractLayoutData;

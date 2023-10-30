@@ -102,7 +102,7 @@ class PropData implements Arrayable
         if (array_key_exists($key, $this->props)) {
             return $this->props[$key];
         }
-        
+
         return null;
     }
 

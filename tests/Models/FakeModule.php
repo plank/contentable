@@ -5,10 +5,10 @@ namespace Plank\Contentable\Tests\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Plank\Contentable\Concerns\CanRender;
-use Plank\Contentable\Contracts\RenderableInterface;
+use Plank\Contentable\Contracts\Renderable;
 use Plank\Contentable\Tests\Factories\FakeModuleFactory;
 
-class FakeModule extends Model implements RenderableInterface
+class FakeModule extends Model implements Renderable
 {
     use HasFactory;
     use CanRender;

@@ -3,27 +3,27 @@
 namespace Plank\Contentable\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Plank\Contentable\Contracts\RenderableInterface;
+use Plank\Contentable\Contracts\Renderable;
 use Plank\Contentable\Facades\Contentable;
 
 trait CanRender
 {
     public static function bootCanRender()
     {
-        static::updated(function (RenderableInterface $module) {
+        static::updated(function (Renderable $module) {
             foreach ($module->renderable as $content) {
                 Contentable::clearCache($content->contentable->getKey());
             }
         });
 
-        static::deleted(function (RenderableInterface $module) {
+        static::deleted(function (Renderable $module) {
             foreach ($module->renderable as $content) {
                 Contentable::clearCache($content->contentable->getKey());
             }
         });
 
         if (method_exists(new self(), 'bootSoftDeletes')) {
-            static::restored(function (RenderableInterface $module) {
+            static::restored(function (Renderable $module) {
                 foreach ($module->renderable as $content) {
                     Contentable::clearCache($content->contentable->getKey());
                 }

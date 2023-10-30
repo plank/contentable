@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Plank\Contentable\Contracts\RenderableInterface;
+use Plank\Contentable\Contracts\Renderable;
 use Plank\Contentable\Facades\Contentable;
 
 trait HasContent
@@ -26,11 +26,11 @@ trait HasContent
     /**
      * Attach one or many pieces of content to this Contentable
      *
-     * @param RenderableInterface|Collection|array $renderable either a single instance of RenderableInterface or a collection/array of them.
+     * @param Renderable|Collection|array $renderable either a single instance of Renderable or a collection/array of them.
      * @param $identifier
      * @return Collection
      */
-    public function attachContent(RenderableInterface|Collection|array $renderable, $identifier = null): Collection
+    public function attachContent(Renderable|Collection|array $renderable, $identifier = null): Collection
     {
         Contentable::clearCache($this->getKey());
 
@@ -39,7 +39,7 @@ trait HasContent
         }
 
         if ($renderable instanceof Collection) {
-            return $this->contents()->createMany($renderable->map(function(RenderableInterface $r) {
+            return $this->contents()->createMany($renderable->map(function(Renderable $r) {
                 return $this->formatKeys($r);
             }));
         }
@@ -51,11 +51,11 @@ trait HasContent
     /**
      * Update the models attached via the contents() relation to match the passed collection of $renderables.
      *
-     * @param RenderableInterface|Collection|array $renderables either a single instance of RenderableInterface or a collection/array of them.
+     * @param Renderable|Collection|array $renderables either a single instance of Renderable or a collection/array of them.
      * @param bool $detaching
      * @return array[]
      */
-    public function syncContent(RenderableInterface|Collection|array $renderables, bool $detaching = true): array
+    public function syncContent(Renderable|Collection|array $renderables, bool $detaching = true): array
     {
         $changes = [
             'attached' => [], 'detached' => []
@@ -93,10 +93,10 @@ trait HasContent
     /**
      * Remove passed renderables from this contentables contents() relation.
      *
-     * @param RenderableInterface|Collection|array $renderables either a single instance of RenderableInterface or a collection/array of them.
+     * @param Renderable|Collection|array $renderables either a single instance of Renderable or a collection/array of them.
      * @return void
      */
-    public function detachContent(RenderableInterface|Collection|array $renderables): void
+    public function detachContent(Renderable|Collection|array $renderables): void
     {
         $contentModel = config('contentable.model');
 
@@ -116,9 +116,9 @@ trait HasContent
         }
     }
 
-    private function formatKeys(RenderableInterface|Collection|array $renderables)
+    private function formatKeys(Renderable|Collection|array $renderables)
     {
-        if ($renderables instanceof RenderableInterface) {
+        if ($renderables instanceof Renderable) {
             return [
                 'renderable_type' => $renderables::class,
                 'renderable_id' => $renderables->getKey()

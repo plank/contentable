@@ -5,13 +5,13 @@ namespace Plank\Contentable\Contracts;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-interface ContentableInterface
+interface Contentable
 {
     public function contents(): MorphMany;
 
     public function scopeInRenderableOrder(Builder $q): void;
 
-    public function attachContent(RenderableInterface $renderable);
+    public function attachContent(Renderable $renderable);
 
     public function renderHtml(): string;
 

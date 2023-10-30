@@ -4,7 +4,7 @@ namespace Plank\Contentable\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-interface RenderableInterface
+interface Renderable
 {
 
     public function renderHtml(): string;

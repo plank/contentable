@@ -41,7 +41,7 @@ trait HasContent
         return collect([$this->contents()->create($attach)]);
     }
 
-    public function syncContent($renderables, $detaching = true): array
+    public function syncContent(RenderableInterface|Collection|array $renderables, bool $detaching = true): array
     {
         $changes = [
             'attached' => [], 'detached' => []

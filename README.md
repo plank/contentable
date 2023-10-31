@@ -11,8 +11,6 @@
 
 ⚠️ This package is currently in development and is not ready for production use. ⚠️
 
-Contentable is an opinionated way of representing content within your application. Its goal is to provide, flexibiliy, structure and consistency to your content, so you can leverage it to the fullest.
-
 ## Table of Contents
 
 - [Installation](#installation)

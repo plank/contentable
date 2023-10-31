@@ -17,10 +17,8 @@ class ContentableServiceProvider extends PackageServiceProvider
         $package
             ->name('contentable')
             ->hasConfigFile()
-            ->hasViews()
             ->hasMigrations([
                 'create_layouts_table',
-                'create_templates_table',
             ]);
     }
 }

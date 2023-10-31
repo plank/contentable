@@ -10,7 +10,6 @@ use Plank\Contentable\Contracts\Layoutable;
 class Page extends Model implements Layoutable
 {
     use HasFactory;
-
     use HasLayouts {
         layoutKey as traitLayoutKey;
     }

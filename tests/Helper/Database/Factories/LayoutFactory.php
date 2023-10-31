@@ -19,7 +19,7 @@ class LayoutFactory extends Factory
 
         return [
             'identifier' => implode('.', $this->faker->words(2)),
-            'meta' => $meta
+            'meta' => $meta,
         ];
     }
 }

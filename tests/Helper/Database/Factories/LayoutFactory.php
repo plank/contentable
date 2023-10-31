@@ -11,8 +11,15 @@ class LayoutFactory extends Factory
 
     public function definition()
     {
+        $meta = [];
+
+        for ($i = $this->faker->numberBetween(1, 5); $i <= 5; $i++) {
+            $meta[$this->faker->word] = $this->faker->word;
+        }
+
         return [
             'identifier' => implode('.', $this->faker->words(2)),
+            'meta' => $meta
         ];
     }
 }

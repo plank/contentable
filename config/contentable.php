@@ -5,6 +5,5 @@ return [
         'namespace' => 'App\\Layouts',
         'blade_namespace' => null,
         'model' => \Plank\Contentable\Models\Layout::class,
-        'data' => \Plank\Contentable\Data\LayoutData::class,
     ],
 ];

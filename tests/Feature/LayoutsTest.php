@@ -22,11 +22,15 @@ it('finds the show layout using the default key', function () {
 
     expect($layout = $page->layout())->toBeInstanceOf(Layout::class);
     expect($layout->layoutKey())->toBe('pages.show');
+    expect($layout->bladeTemplate())->toBe('layouts.pages.show');
+    expect($layout->inertiaComponent())->toBe('Pages/Show');
 });
 
 it('finds the index layout using the default key', function () {
     expect($layout = Page::indexLayout())->toBeInstanceOf(Layout::class);
     expect($layout->layoutKey())->toBe('pages.index');
+    expect($layout->bladeTemplate())->toBe('layouts.pages.index');
+    expect($layout->inertiaComponent())->toBe('Pages/Index');
 });
 
 it('finds the show layout using a custom key', function () {
@@ -36,4 +40,6 @@ it('finds the show layout using a custom key', function () {
 
     expect($layout = $page->layout())->toBeInstanceOf(Layout::class);
     expect($layout->layoutKey())->toBe('promotions');
+    expect($layout->bladeTemplate())->toBe('layouts.promotions');
+    expect($layout->inertiaComponent())->toBe('Promotions');
 });

@@ -13,11 +13,6 @@ class Layout extends Model implements LayoutContract
     protected $guarded = ['id'];
 
     /**
-     * The key on the model which identifies the layout
-     */
-    const LAYOUT_KEY = 'identifier';
-
-    /**
      * {@inheritDoc}
      */
     public function layoutKey(): string
@@ -30,7 +25,7 @@ class Layout extends Model implements LayoutContract
      */
     public static function getLayoutKeyName(): string
     {
-        return static::LAYOUT_KEY;
+        return 'identifier';
     }
 
     /**

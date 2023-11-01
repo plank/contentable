@@ -19,4 +19,6 @@ interface Contentable
     public function renderHtml(): string;
 
     public function renderJson(): string;
+
+    public function clearCache(): void;
 }

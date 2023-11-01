@@ -32,7 +32,7 @@ trait HasContent
      */
     public function attachContent(Renderable|Collection|array $renderable, $identifier = null): Collection
     {
-        Contentable::clearCache($this->getKey());
+        $this->clearCache();
 
         if (is_array($renderable)) {
             $renderable = collect($renderable);
@@ -175,5 +175,18 @@ trait HasContent
     public function renderOrderColumnField()
     {
         return $this->render_order_column ?? $this->getKeyName();
+    }
+
+    public function clearCache($key = null): void
+    {
+        $key = $key ?? $this->getKey();
+
+        if (Cache::has("contentable.html.{$key}")) {
+            Cache::delete("contentable.html.{$key}");
+        }
+
+        if (Cache::has("contentable.json.{$key}")) {
+            Cache::delete("contentable.json.{$key}");
+        }
     }
 }

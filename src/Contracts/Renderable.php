@@ -3,6 +3,7 @@
 namespace Plank\Contentable\Contracts;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Support\Collection;
 
 interface Renderable
 {
@@ -15,5 +16,5 @@ interface Renderable
 
     public function content(): MorphMany;
 
-    public function contentable(): ?Contentable;
+    public function contentables(): ?Collection;
 }

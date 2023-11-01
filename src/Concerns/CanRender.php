@@ -4,7 +4,7 @@ namespace Plank\Contentable\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Plank\Contentable\Contracts\Contentable;
+use Illuminate\Support\Collection;
 use Plank\Contentable\Contracts\Renderable;
 
 trait CanRender
@@ -12,17 +12,16 @@ trait CanRender
     public static function bootCanRender()
     {
         static::updated(function (Renderable $renderable) {
-            $renderable->contentable()?->clearCache();
-
+            $renderable->contentables()?->each->clearCache();
         });
 
         static::deleted(function (Renderable $renderable) {
-            $renderable->contentable()?->clearCache();
+            $renderable->contentables()?->each->clearCache();
         });
 
         if (in_array(SoftDeletes::class, class_uses_recursive(static::class))) {
             static::restored(function (Renderable $renderable) {
-                $renderable->contentable()?->clearCache();
+                $renderable->contentables()?->each->clearCache();
             });
         }
     }
@@ -33,9 +32,9 @@ trait CanRender
         return $this->morphMany($contentModel, 'renderable');
     }
 
-    public function contentable(): ?Contentable
+    public function contentables(): ?Collection
     {
-        return $this->content?->contentable;
+        return $this->content?->pluck('contentable');
     }
 
     /**

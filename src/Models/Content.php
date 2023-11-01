@@ -5,8 +5,9 @@ namespace Plank\Contentable\Models;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use Plank\Contentable\Contracts\Content as ContentInterface;
 
-class Content extends Model
+class Content extends Model implements ContentInterface
 {
     protected $fillable = [
         'contentable_id',
@@ -17,12 +18,12 @@ class Content extends Model
         'order',
     ];
 
-    public function renderable()
+    public function renderable(): MorphTo
     {
         return $this->morphTo();
     }
 
-    public function contentable()
+    public function contentable(): MorphTo
     {
         return $this->morphTo();
     }

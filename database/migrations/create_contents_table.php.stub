@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('identifier')->nullable();
             $table->morphs('contentable');
             $table->morphs('renderable');
+            $table->integer('order');
             $table->timestamps();
         });
     }

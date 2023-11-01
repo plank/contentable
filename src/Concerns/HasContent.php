@@ -18,11 +18,6 @@ trait HasContent
         return $this->morphMany($contentModel, 'contentable');
     }
 
-    public function scopeInRenderableOrder(Builder $q): void
-    {
-        $q->orderBy($this->renderOrderColumnField());
-    }
-
     /**
      * Attach one or many pieces of content to this Contentable
      *
@@ -170,11 +165,6 @@ trait HasContent
         Cache::put("contentable.json.{$this->id}", $output, config('contentable.cache.ttl'));
 
         return $output;
-    }
-
-    public function renderOrderColumnField()
-    {
-        return $this->render_order_column ?? $this->getKeyName();
     }
 
     public function clearCache($key = null): void

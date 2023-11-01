@@ -13,5 +13,7 @@ interface Renderable
 
     public function renderableFields(): array;
 
-    public function renderable(): MorphMany;
+    public function content(): MorphMany;
+
+    public function contentable(): ?Contentable;
 }

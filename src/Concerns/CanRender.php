@@ -27,10 +27,15 @@ trait CanRender
         }
     }
 
-    public function renderable(): MorphMany
+    public function content(): MorphMany
     {
         $contentModel = config('contentable.model');
         return $this->morphMany($contentModel, 'renderable');
+    }
+
+    public function contentable(): ?Contentable
+    {
+        return $this->content?->contentable;
     }
 
     /**

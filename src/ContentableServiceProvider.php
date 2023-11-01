@@ -4,7 +4,6 @@ namespace Plank\Contentable;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Plank\Contentable\Commands\ContentableCommand;
 
 class ContentableServiceProvider extends PackageServiceProvider
 {
@@ -18,8 +17,8 @@ class ContentableServiceProvider extends PackageServiceProvider
         $package
             ->name('contentable')
             ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_contentable_table')
-            ->hasCommand(ContentableCommand::class);
+            ->hasMigrations([
+                'create_layouts_table',
+            ]);
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
-// config for Plank/Contentable
 return [
-
+    'layouts' => [
+        'model' => \Plank\Contentable\Models\Layout::class,
+    ],
 ];

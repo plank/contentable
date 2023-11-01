@@ -12,8 +12,6 @@ interface Contentable
 {
     public function contents(): MorphMany;
 
-    public function scopeInRenderableOrder(Builder $q): void;
-
     public function attachContent(Renderable $renderable);
 
     public function renderHtml(): string;

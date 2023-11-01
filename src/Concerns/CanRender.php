@@ -29,6 +29,7 @@ trait CanRender
     public function content(): MorphMany
     {
         $contentModel = config('contentable.model');
+
         return $this->morphMany($contentModel, 'renderable');
     }
 
@@ -39,8 +40,6 @@ trait CanRender
 
     /**
      * Encodes the renderable fields as JSON to be passed to the front-end.
-     *
-     * @return string
      */
     public function renderJson($fields = []): string
     {
@@ -54,6 +53,6 @@ trait CanRender
      */
     public function renderableFields(): array
     {
-        return property_exists($this,'renderableFields') ? $this->renderableFields : ['title', 'body'];
+        return property_exists($this, 'renderableFields') ? $this->renderableFields : ['title', 'body'];
     }
 }

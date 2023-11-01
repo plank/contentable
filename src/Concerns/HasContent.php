@@ -2,7 +2,6 @@
 
 namespace Plank\Contentable\Concerns;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
@@ -15,15 +14,14 @@ trait HasContent
     public function contents(): MorphMany
     {
         $contentModel = config('contentable.model');
+
         return $this->morphMany($contentModel, 'contentable');
     }
 
     /**
      * Attach one or many pieces of content to this Contentable
      *
-     * @param Renderable|Collection|array $renderable either a single instance of Renderable or a collection/array of them.
-     * @param $identifier
-     * @return Collection
+     * @param  Renderable|Collection|array  $renderable either a single instance of Renderable or a collection/array of them.
      */
     public function attachContent(Renderable|Collection|array $renderable, $identifier = null): Collection
     {
@@ -34,26 +32,26 @@ trait HasContent
         }
 
         if ($renderable instanceof Collection) {
-            return $this->contents()->createMany($renderable->map(function(Renderable $r) {
+            return $this->contents()->createMany($renderable->map(function (Renderable $r) {
                 return $this->formatKeys($r);
             }));
         }
 
         $attach = array_merge($this->formatKeys($renderable), $identifier ? ['identifier' => $identifier] : []);
+
         return collect([$this->contents()->create($attach)]);
     }
 
     /**
      * Update the models attached via the contents() relation to match the passed collection of $renderables.
      *
-     * @param Renderable|Collection|array $renderables either a single instance of Renderable or a collection/array of them.
-     * @param bool $detaching
+     * @param  Renderable|Collection|array  $renderables either a single instance of Renderable or a collection/array of them.
      * @return array[]
      */
     public function syncContent(Renderable|Collection|array $renderables, bool $detaching = true): array
     {
         $changes = [
-            'attached' => [], 'detached' => []
+            'attached' => [], 'detached' => [],
         ];
 
         // get intersect of input and attached
@@ -88,8 +86,7 @@ trait HasContent
     /**
      * Remove passed renderables from this contentables contents() relation.
      *
-     * @param Renderable|Collection|array $renderables either a single instance of Renderable or a collection/array of them.
-     * @return void
+     * @param  Renderable|Collection|array  $renderables either a single instance of Renderable or a collection/array of them.
      */
     public function detachContent(Renderable|Collection|array $renderables): void
     {
@@ -116,7 +113,7 @@ trait HasContent
         if ($renderables instanceof Renderable) {
             return [
                 'renderable_type' => $renderables::class,
-                'renderable_id' => $renderables->getKey()
+                'renderable_id' => $renderables->getKey(),
             ];
         }
 
@@ -127,7 +124,7 @@ trait HasContent
         return $renderables->map(function ($renderable) {
             return [
                 'renderable_type' => $renderable::class,
-                'renderable_id' => $renderable->getKey()
+                'renderable_id' => $renderable->getKey(),
             ];
         })->all();
     }
@@ -138,9 +135,9 @@ trait HasContent
             return Cache::get("contentable.html.{$this->getKey()}");
         }
 
-        $output = "";
+        $output = '';
         foreach ($this->contents as $content) {
-            $output .= $content->renderable->renderHtml() . "\n";
+            $output .= $content->renderable->renderHtml()."\n";
         }
 
         Cache::put("contentable.html.{$this->getKey()}", $output, config('contentable.cache.ttl'));

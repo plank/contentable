@@ -9,7 +9,7 @@ use Plank\Contentable\Concerns\HasLayouts;
 use Plank\Contentable\Contracts\Contentable;
 use Plank\Contentable\Contracts\Layoutable;
 
-class Page extends Model implements Layoutable, Contentable
+class Page extends Model implements Contentable, Layoutable
 {
     use HasContent;
     use HasFactory;

@@ -7,7 +7,6 @@ use Illuminate\Support\Collection;
 
 interface Renderable
 {
-
     public function renderHtml(): string;
 
     public function renderJson(): string;

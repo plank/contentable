@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Cache;
 use Plank\Contentable\Tests\Helper\Models\FakeModule;
 use Plank\Contentable\Tests\Helper\Models\Page;
 
-it('clears the cached html when its content changes', function() {
+it('clears the cached html when its content changes', function () {
     $page = Page::factory()->create();
     $renderable1 = FakeModule::factory()->create();
     $renderable2 = FakeModule::factory()->create();
@@ -19,7 +19,7 @@ it('clears the cached html when its content changes', function() {
     expect(Cache::has("contentable.html.{$page->id}"))->toBeFalse();
 });
 
-it('clears the cached json when its content changes', function() {
+it('clears the cached json when its content changes', function () {
     $page = Page::factory()->create();
     $renderable1 = FakeModule::factory()->create();
     $renderable2 = FakeModule::factory()->create();
@@ -51,7 +51,7 @@ it('clears cache if a renderable attached to a contentable is updated', function
     expect(Cache::has("contentable.html.{$page1->id}"))->toBeTrue();
     expect(Cache::has("contentable.html.{$page2->id}"))->toBeTrue();
 
-    $renderable->title = "New Title!";
+    $renderable->title = 'New Title!';
     $renderable->save();
 
     expect(Cache::has("contentable.json.{$page1->id}"))->toBeFalse();

@@ -18,7 +18,7 @@ it('can render json of an attached module', function () {
 
     $expected = json_encode([
         'title' => $renderable->title,
-        'body' => $renderable->body
+        'body' => $renderable->body,
     ]);
 
     expect($renderable->renderJson())->toEqual($expected);
@@ -39,7 +39,6 @@ it('can render a full page of html', function () {
     $expected .= "<div><h2>{$renderable2->title}</h2><p>{$renderable2->body}</p></div>\n";
     $expected .= "<div><h2>{$renderable3->title}</h2><p>{$renderable3->body}</p></div>\n";
 
-
     expect($page->renderHtml())->toEqual($expected);
     expect(Cache::has("contentable.html.{$page->id}"))->toBeTrue();
     expect(Cache::get("contentable.html.{$page->id}"))->toEqual($expected);
@@ -59,7 +58,7 @@ it('can render a full page of json', function () {
     $expected = json_encode([
         $renderable1->renderJson(),
         $renderable2->renderJson(),
-        $renderable3->renderJson()
+        $renderable3->renderJson(),
     ]);
 
     expect($page->renderJson())->toEqual($expected);

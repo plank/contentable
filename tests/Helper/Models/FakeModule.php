@@ -10,8 +10,8 @@ use Plank\Contentable\Tests\Helper\Database\Factories\FakeModuleFactory;
 
 class FakeModule extends Model implements Renderable
 {
-    use HasFactory;
     use CanRender;
+    use HasFactory;
 
     protected $guarded = ['id'];
 
@@ -26,6 +26,4 @@ class FakeModule extends Model implements Renderable
     {
         return "<div><h2>{$this->title}</h2><p>{$this->body}</p></div>";
     }
-
-
 }

@@ -1,12 +1,12 @@
 <?php
 
-namespace Plank\Contentable\Tests\Models;
+namespace Plank\Contentable\Tests\Helper\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Plank\Contentable\Concerns\CanRender;
 use Plank\Contentable\Contracts\Renderable;
-use Plank\Contentable\Tests\Factories\FakeModuleFactory;
+use Plank\Contentable\Tests\Helper\Database\Factories\FakeModuleFactory;
 
 class FakeModule extends Model implements Renderable
 {

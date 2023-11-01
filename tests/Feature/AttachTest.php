@@ -1,8 +1,8 @@
 <?php
 
 use Plank\Contentable\Models\Content;
-use Plank\Contentable\Tests\Models\FakeModule;
-use Plank\Contentable\Tests\Models\Page;
+use Plank\Contentable\Tests\Helper\Models\FakeModule;
+use Plank\Contentable\Tests\Helper\Models\Page;
 
 it('can attach new renderables to a piece of content', function () {
     $page = Page::factory()->create();
@@ -47,7 +47,7 @@ it('can sync new renderables to a piece of content', function () {
     // add 2 new modules, keep the first module, but de-sync the second module
     // ids: 1, 3, 4
     $sync = FakeModule::factory(2)->create()->merge([$renderables[0]]);
-    
+
     // simulate some time passing
     $this->travel(3)->hours();
 

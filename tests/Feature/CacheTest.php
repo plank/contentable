@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
-use Plank\Contentable\Tests\Models\FakeModule;
-use Plank\Contentable\Tests\Models\Page;
+use Plank\Contentable\Tests\Helper\Models\FakeModule;
+use Plank\Contentable\Tests\Helper\Models\Page;
 
 it('clears the cached html when its content changes', function() {
     $page = Page::factory()->create();

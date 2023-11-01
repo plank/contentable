@@ -1,8 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Cache;
-use Plank\Contentable\Tests\Models\FakeModule;
-use Plank\Contentable\Tests\Models\Page;
+use Plank\Contentable\Tests\Helper\Models\FakeModule;
+use Plank\Contentable\Tests\Helper\Models\Page;
 
 it('can render html of an attached module', function () {
     $renderable = FakeModule::factory()->create();

@@ -1,9 +1,9 @@
 <?php
 
-namespace Plank\Contentable\Tests\Factories;
+namespace Plank\Contentable\Tests\Helper\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Plank\Contentable\Tests\Models\FakeModule;
+use Plank\Contentable\Tests\Helper\Models\FakeModule;
 
 class FakeModuleFactory extends Factory
 {

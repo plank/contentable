@@ -55,6 +55,6 @@ trait CanRender
      */
     public function renderableFields(): array
     {
-        return property_exists($this,'renderableFields') ? $this->renderableFields : ['title', 'content'];
+        return property_exists($this,'renderableFields') ? $this->renderableFields : ['title', 'body'];
     }
 }

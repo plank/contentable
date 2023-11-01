@@ -7,7 +7,7 @@ use Plank\Contentable\Tests\Helper\Models\Page;
 it('can render html of an attached module', function () {
     $renderable = FakeModule::factory()->create();
 
-    $expected = "<div><h2>{$renderable->title}</h2><p>{$renderable->content}</p></div>";
+    $expected = "<div><h2>{$renderable->title}</h2><p>{$renderable->body}</p></div>";
 
     expect($renderable->renderHtml())->toEqual($expected);
 
@@ -18,7 +18,7 @@ it('can render json of an attached module', function () {
 
     $expected = json_encode([
         'title' => $renderable->title,
-        'content' => $renderable->content
+        'body' => $renderable->body
     ]);
 
     expect($renderable->renderJson())->toEqual($expected);
@@ -35,9 +35,9 @@ it('can render a full page of html', function () {
     $page->attachContent($renderable2);
     $page->attachContent($renderable3);
 
-    $expected = "<div><h2>{$renderable1->title}</h2><p>{$renderable1->content}</p></div>\n";
-    $expected .= "<div><h2>{$renderable2->title}</h2><p>{$renderable2->content}</p></div>\n";
-    $expected .= "<div><h2>{$renderable3->title}</h2><p>{$renderable3->content}</p></div>\n";
+    $expected = "<div><h2>{$renderable1->title}</h2><p>{$renderable1->body}</p></div>\n";
+    $expected .= "<div><h2>{$renderable2->title}</h2><p>{$renderable2->body}</p></div>\n";
+    $expected .= "<div><h2>{$renderable3->title}</h2><p>{$renderable3->body}</p></div>\n";
 
 
     expect($page->renderHtml())->toEqual($expected);

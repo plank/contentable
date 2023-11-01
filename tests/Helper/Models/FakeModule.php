@@ -15,6 +15,8 @@ class FakeModule extends Model implements Renderable
 
     protected $guarded = ['id'];
 
+    protected $renderableFields = ['title', 'body'];
+
     protected static function newFactory()
     {
         return FakeModuleFactory::new();
@@ -22,7 +24,7 @@ class FakeModule extends Model implements Renderable
 
     public function renderHtml(): string
     {
-        return "<div><h2>{$this->title}</h2><p>{$this->content}</p></div>";
+        return "<div><h2>{$this->title}</h2><p>{$this->body}</p></div>";
     }
 
 

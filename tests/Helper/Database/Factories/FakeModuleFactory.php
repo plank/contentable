@@ -16,7 +16,7 @@ class FakeModuleFactory extends Factory
     {
         return [
             'title' => $this->faker->sentence(3),
-            'content' => $this->faker->sentence(10),
+            'body' => $this->faker->sentence(10),
         ];
     }
 

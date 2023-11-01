@@ -3,30 +3,26 @@
 namespace Plank\Contentable\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Plank\Contentable\Contracts\Contentable;
 use Plank\Contentable\Contracts\Renderable;
-use Plank\Contentable\Facades\Contentable;
 
 trait CanRender
 {
     public static function bootCanRender()
     {
-        static::updated(function (Renderable $module) {
-            foreach ($module->renderable as $content) {
-                Contentable::clearCache($content->contentable->getKey());
-            }
+        static::updated(function (Renderable $renderable) {
+            $renderable->contentable()?->clearCache();
+
         });
 
-        static::deleted(function (Renderable $module) {
-            foreach ($module->renderable as $content) {
-                Contentable::clearCache($content->contentable->getKey());
-            }
+        static::deleted(function (Renderable $renderable) {
+            $renderable->contentable()?->clearCache();
         });
 
-        if (method_exists(new self(), 'bootSoftDeletes')) {
-            static::restored(function (Renderable $module) {
-                foreach ($module->renderable as $content) {
-                    Contentable::clearCache($content->contentable->getKey());
-                }
+        if (in_array(SoftDeletes::class, class_uses_recursive(static::class))) {
+            static::restored(function (Renderable $renderable) {
+                $renderable->contentable()?->clearCache();
             });
         }
     }

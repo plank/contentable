@@ -2,8 +2,7 @@
 
 namespace Plank\Contentable\Contracts;
 
-use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 interface Renderable
 {
@@ -13,7 +12,7 @@ interface Renderable
 
     public function renderableFields(): array;
 
-    public function content(): MorphMany;
+    public function content(): MorphOne;
 
-    public function contentables(): ?Collection;
+    public function contentables(): ?Contentable;
 }

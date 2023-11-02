@@ -21,11 +21,9 @@ trait HasContent
     /**
      * Attach one or many pieces of content to this Contentable
      *
-     * @param Collection|array|(Model&Renderable) $renderable either a single instance of Renderable or a collection/array of them.
-     * @param string|null $identifier
-     * @return Collection
+     * @param  Collection|array|(Model&Renderable)  $renderable either a single instance of Renderable or a collection/array of them.
      */
-    public function attachContent((Renderable&Model)|Collection|array $renderable, ?string $identifier = null): Collection
+    public function attachContent((Renderable&Model)|Collection|array $renderable, string $identifier = null): Collection
     {
         $this->clearCache();
 
@@ -47,8 +45,7 @@ trait HasContent
     /**
      * Update the models attached via the contents() relation to match the passed collection of $renderables.
      *
-     * @param Collection|array|(Model&Renderable) $renderables either a single instance of Renderable or a collection/array of them.
-     * @param bool $detaching
+     * @param  Collection|array|(Model&Renderable)  $renderables either a single instance of Renderable or a collection/array of them.
      * @return array[]
      */
     public function syncContent((Renderable&Model)|Collection|array $renderables, bool $detaching = true): array
@@ -89,7 +86,7 @@ trait HasContent
     /**
      * Remove passed renderables from this contentables contents() relation.
      *
-     * @param Collection|array|(Model&Renderable) $renderables either a single instance of Renderable or a collection/array of them.
+     * @param  Collection|array|(Model&Renderable)  $renderables either a single instance of Renderable or a collection/array of them.
      */
     public function detachContent((Renderable&Model)|Collection|array $renderables): void
     {

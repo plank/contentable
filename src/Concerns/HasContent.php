@@ -3,11 +3,11 @@
 namespace Plank\Contentable\Concerns;
 
 use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Plank\Contentable\Contracts\Renderable;
-use Plank\Contentable\Facades\Contentable;
 
 trait HasContent
 {
@@ -21,9 +21,11 @@ trait HasContent
     /**
      * Attach one or many pieces of content to this Contentable
      *
-     * @param  Renderable|Collection|array  $renderable either a single instance of Renderable or a collection/array of them.
+     * @param Collection|array|(Model&Renderable) $renderable either a single instance of Renderable or a collection/array of them.
+     * @param string|null $identifier
+     * @return Collection
      */
-    public function attachContent(Renderable|Collection|array $renderable, $identifier = null): Collection
+    public function attachContent((Renderable&Model)|Collection|array $renderable, ?string $identifier = null): Collection
     {
         $this->clearCache();
 
@@ -45,10 +47,11 @@ trait HasContent
     /**
      * Update the models attached via the contents() relation to match the passed collection of $renderables.
      *
-     * @param  Renderable|Collection|array  $renderables either a single instance of Renderable or a collection/array of them.
+     * @param Collection|array|(Model&Renderable) $renderables either a single instance of Renderable or a collection/array of them.
+     * @param bool $detaching
      * @return array[]
      */
-    public function syncContent(Renderable|Collection|array $renderables, bool $detaching = true): array
+    public function syncContent((Renderable&Model)|Collection|array $renderables, bool $detaching = true): array
     {
         $changes = [
             'attached' => [], 'detached' => [],
@@ -86,9 +89,9 @@ trait HasContent
     /**
      * Remove passed renderables from this contentables contents() relation.
      *
-     * @param  Renderable|Collection|array  $renderables either a single instance of Renderable or a collection/array of them.
+     * @param Collection|array|(Model&Renderable) $renderables either a single instance of Renderable or a collection/array of them.
      */
-    public function detachContent(Renderable|Collection|array $renderables): void
+    public function detachContent((Renderable&Model)|Collection|array $renderables): void
     {
         $contentModel = config('contentable.model');
 

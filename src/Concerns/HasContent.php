@@ -108,7 +108,7 @@ trait HasContent
         }
     }
 
-    private function formatKeys(Renderable|Collection|array $renderables)
+    private function formatKeys(Renderable|Collection|array $renderables): array
     {
         if ($renderables instanceof Renderable) {
             return [

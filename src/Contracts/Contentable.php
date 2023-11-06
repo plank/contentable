@@ -13,8 +13,6 @@ interface Contentable
 {
     public function contents(): MorphMany;
 
-    public function attachContent((Renderable&Model)|Collection|array $renderable);
-
     public function renderHtml(): string;
 
     public function renderJson(): string;

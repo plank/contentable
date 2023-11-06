@@ -4,6 +4,7 @@ namespace Plank\Contentable\Concerns;
 
 use Illuminate\Database\Eloquent\Relations\MorphOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Collection;
 use Plank\Contentable\Contracts\Contentable;
 use Plank\Contentable\Contracts\Renderable;
 
@@ -54,5 +55,13 @@ trait CanRender
     public function renderableFields(): array
     {
         return property_exists($this, 'renderableFields') ? $this->renderableFields : ['title', 'body'];
+    }
+
+    public function formatKeys(): array
+    {
+        return [
+            'renderable_type' => static::class,
+            'renderable_id' => $this->getKey(),
+        ];
     }
 }

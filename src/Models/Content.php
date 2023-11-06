@@ -18,6 +18,15 @@ class Content extends Model implements ContentInterface
         'order',
     ];
 
+    protected static function boot()
+    {
+        static::saved(function (ContentInterface $content) {
+            $content->contentable->clearCache();
+        });
+
+        parent::boot();
+    }
+
     public function renderable(): MorphTo
     {
         return $this->morphTo();

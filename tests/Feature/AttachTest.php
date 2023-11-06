@@ -1,6 +1,5 @@
 <?php
 
-use Plank\Contentable\Models\Content;
 use Plank\Contentable\Tests\Helper\Models\FakeModule;
 use Plank\Contentable\Tests\Helper\Models\Page;
 
@@ -9,7 +8,7 @@ it('can format keys as expected for easy creation', function () {
 
     $expected = [
         'renderable_type' => FakeModule::class,
-        'renderable_id' => $renderable->id
+        'renderable_id' => $renderable->id,
     ];
 
     expect($renderable->formatKeys())->toEqual($expected);
@@ -37,9 +36,9 @@ it('can attach new renderables to a piece of content', function () {
 
 it('can have many renderables attached in one go using collection high order functions', function () {
     $page = Page::factory()->create();
-   $renderables = FakeModule::factory(10)->create();
+    $renderables = FakeModule::factory(10)->create();
 
-   $attached = $page->contents()->createMany($renderables->map->formatKeys());
+    $attached = $page->contents()->createMany($renderables->map->formatKeys());
 
-   expect($attached->count())->toEqual(10);
+    expect($attached->count())->toEqual(10);
 });

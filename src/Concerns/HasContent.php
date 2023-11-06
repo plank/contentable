@@ -22,7 +22,7 @@ trait HasContent
 
         $output = '';
         foreach ($this->contents as $content) {
-            $output .= $content->renderable->renderHtml() . "\n";
+            $output .= $content->renderable->renderHtml()."\n";
         }
 
         Cache::put("contentable.html.{$this->getKey()}", $output, config('contentable.cache.ttl'));

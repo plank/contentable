@@ -31,9 +31,9 @@ it('can render a full page of html', function () {
 
     $page = Page::factory()->create();
 
-    $page->attachContent($renderable1);
-    $page->attachContent($renderable2);
-    $page->attachContent($renderable3);
+    $page->contents()->create($renderable1->formatKeys());
+    $page->contents()->create($renderable2->formatKeys());
+    $page->contents()->create($renderable3->formatKeys());
 
     $expected = "<div><h2>{$renderable1->title}</h2><p>{$renderable1->body}</p></div>\n";
     $expected .= "<div><h2>{$renderable2->title}</h2><p>{$renderable2->body}</p></div>\n";
@@ -51,9 +51,9 @@ it('can render a full page of json', function () {
 
     $page = Page::factory()->create();
 
-    $page->attachContent($renderable1);
-    $page->attachContent($renderable2);
-    $page->attachContent($renderable3);
+    $page->contents()->create($renderable1->formatKeys());
+    $page->contents()->create($renderable2->formatKeys());
+    $page->contents()->create($renderable3->formatKeys());
 
     $expected = json_encode([
         $renderable1->renderJson(),

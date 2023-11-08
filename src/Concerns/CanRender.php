@@ -12,16 +12,16 @@ trait CanRender
     public static function bootCanRender()
     {
         static::updated(function (Renderable $renderable) {
-            $renderable->contentables()?->clearCache();
+            $renderable->contentable()?->clearCache();
         });
 
         static::deleted(function (Renderable $renderable) {
-            $renderable->contentables()?->clearCache();
+            $renderable->contentable()?->clearCache();
         });
 
         if (in_array(SoftDeletes::class, class_uses_recursive(static::class))) {
             static::restored(function (Renderable $renderable) {
-                $renderable->contentables()?->clearCache();
+                $renderable->contentable()?->clearCache();
             });
         }
     }

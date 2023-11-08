@@ -14,5 +14,5 @@ interface Renderable
 
     public function content(): MorphOne;
 
-    public function contentables(): ?Contentable;
+    public function contentable(): ?Contentable;
 }

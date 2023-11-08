@@ -10,8 +10,4 @@ interface Content
     public function renderable(): MorphTo;
 
     public function contentable(): MorphTo;
-
-    public function scopeInRenderableOrder(Builder $query): void;
-
-    public function renderOrderColumnField(): string;
 }

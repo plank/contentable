@@ -2,7 +2,6 @@
 
 namespace Plank\Contentable\Contracts;
 
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 interface Content

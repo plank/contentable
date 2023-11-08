@@ -33,7 +33,7 @@ trait CanRender
         return $this->morphOne($contentModel, 'renderable');
     }
 
-    public function contentables(): ?Contentable
+    public function contentable(): ?Contentable
     {
         return $this->content?->contentable;
     }

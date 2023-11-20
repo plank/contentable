@@ -9,9 +9,9 @@ use Symfony\Component\Console\Attribute\AsCommand;
 #[AsCommand(name: 'make:content')]
 class ContentMakeCommand extends GeneratorCommand
 {
-    protected $signature = "make:content {name}";
+    protected $signature = 'make:content {name}';
 
-    protected $description = "Create a new content model class to act as a receptacle for content";
+    protected $description = 'Create a new content model class to act as a receptacle for content';
 
     /**
      * The type of class being generated.
@@ -22,7 +22,7 @@ class ContentMakeCommand extends GeneratorCommand
 
     public function handle()
     {
-        if (!is_dir(app_path('Models/Content')) && $this->confirm('Would you like to use App\\Models\\Content as the name space for all generated content?')) {
+        if (! is_dir(app_path('Models/Content')) && $this->confirm('Would you like to use App\\Models\\Content as the name space for all generated content?')) {
             File::makeDirectory(app_path('Models/Content'));
         }
 
@@ -31,7 +31,7 @@ class ContentMakeCommand extends GeneratorCommand
 
     protected function getStub()
     {
-        return $this->resolveStubPath("/stubs/content.php.stub");
+        return $this->resolveStubPath('/stubs/content.php.stub');
     }
 
     /**
@@ -57,5 +57,4 @@ class ContentMakeCommand extends GeneratorCommand
     {
         return is_dir(app_path('Models/Content')) ? $rootNamespace.'\\Models\\Content' : $rootNamespace.'\\Models';
     }
-
 }

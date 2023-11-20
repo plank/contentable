@@ -2,6 +2,7 @@
 
 namespace Plank\Contentable;
 
+use Plank\Contentable\Commands\ContentMakeCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -11,6 +12,7 @@ class ContentableServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('contentable')
+            ->hasCommand(ContentMakeCommand::class)
             ->hasConfigFile()
             ->hasMigrations([
                 'create_contents_table',

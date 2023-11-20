@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Plank\Contentable\Concerns\CanRender;
+use Plank\Contentable\Models\Module;
+
+class {{ class }} extends Module
+{
+    use HasFactory;
+
+    public function renderHtml() {
+        // TODO: Replace generated stubs
+        return "";
+    }
+}

@@ -17,11 +17,6 @@ class SyncLayouts extends Command
 
     protected $description = 'Ensure defined layout files exist as Layout Models.';
 
-    /**
-     * @var Collection<Layoutable>|null
-     */
-    protected ?Collection $layoutables = null;
-
     public function handle(): void
     {
         foreach ($this->globalKeys() as $key) {

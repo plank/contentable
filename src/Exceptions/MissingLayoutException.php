@@ -2,13 +2,12 @@
 
 namespace Plank\Contentable\Exceptions;
 
-use Illuminate\Database\Eloquent\Model;
 use Plank\Contentable\Contracts\Layoutable;
 
 class MissingLayoutException extends ContentableException
 {
     /**
-     * @param class-string<Layoutable> $layoutable
+     * @param  class-string<Layoutable>  $layoutable
      */
     public static function show(string $layoutable, string|int|null $key): self
     {
@@ -16,7 +15,7 @@ class MissingLayoutException extends ContentableException
     }
 
     /**
-     * @param class-string<Layoutable> $layoutable
+     * @param  class-string<Layoutable>  $layoutable
      */
     public static function index(string $layoutable): self
     {

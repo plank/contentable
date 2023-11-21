@@ -66,8 +66,8 @@ class SyncLayouts extends Command
         $layoutModel = static::layoutModel();
 
         $key = (string) str($path)->afterLast(DIRECTORY_SEPARATOR);
-        
-        return array_map(function (SplFileInfo $layout) use ($layoutModel, $key) : string {
+
+        return array_map(function (SplFileInfo $layout) use ($layoutModel, $key): string {
             return str($key)
                 ->append($layoutModel::separator())
                 ->append($layout->getBasename($layoutModel::extension()));
@@ -137,9 +137,8 @@ class SyncLayouts extends Command
 
     /**
      * Create a layout name for the given key
-     * 
-     * @param class-string<Layoutable> $layoutable
-     * @param LayoutType $type
+     *
+     * @param  class-string<Layoutable>  $layoutable
      */
     protected function layoutableKeyToName(string $layoutableKey, string $layoutKey, LayoutType $type): string
     {
@@ -157,7 +156,7 @@ class SyncLayouts extends Command
             ->replace('_', ' ')
             ->title();
 
-        return match($type) {
+        return match ($type) {
             LayoutType::Index => "$modelName Index",
             LayoutType::Show => "$modelName Details",
             default => "$name $modelName",

@@ -16,7 +16,7 @@ enum LayoutType: string
      */
     public static function options(): Collection
     {
-        return Collection::wrap(static::cases())
+        return Collection::wrap(self::cases())
             ->mapWithKeys(fn (LayoutType $type) => [$type->value => $type->name]);
     }
 }

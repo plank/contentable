@@ -77,7 +77,6 @@ describe('It returns Inertia Layouts for Layoutables', function () {
             ->where('key', 'Default')
             ->first();
 
-        
         $page = Page::factory()->create([
             'layout_id' => $layout->id,
         ]);

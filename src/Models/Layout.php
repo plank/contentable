@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Stringable;
 use Plank\Contentable\Contracts\Layout as LayoutContract;
-use Plank\Contentable\Enums\LayoutType;
 use Plank\Contentable\Enums\LayoutMode;
+use Plank\Contentable\Enums\LayoutType;
 
 class Layout extends Model implements LayoutContract
 {
@@ -55,7 +55,7 @@ class Layout extends Model implements LayoutContract
 
     public static function separator(): string
     {
-        return match(static::mode()) {
+        return match (static::mode()) {
             LayoutMode::Blade => '.',
             default => '/',
         };

@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Plank\Contentable\Contracts\Layout;
 use Plank\Contentable\Contracts\Layoutable;
-use Plank\Contentable\Enums\LayoutType;
 use Plank\Contentable\Enums\LayoutMode;
+use Plank\Contentable\Enums\LayoutType;
 use Plank\Contentable\Exceptions\MissingLayoutException;
 
 /**
@@ -48,7 +48,7 @@ trait HasLayouts
 
         return $layoutModel::query()
             ->where($layoutModel::getLayoutableColumn(), static::layoutKey())
-            ->when($this->globalLayouts(), function (Builder $query) use ($layoutModel){
+            ->when($this->globalLayouts(), function (Builder $query) use ($layoutModel) {
                 $query->orWhere(function (Builder $query) use ($layoutModel) {
                     $query->where($layoutModel::getTypeColumn(), LayoutType::Global)
                         ->whereNotIn($layoutModel::getLayoutKeyColumn(), $this->excludedLayouts());
@@ -152,7 +152,7 @@ trait HasLayouts
 
         return true;
     }
-    
+
     /**
      * Exclude specific layouts by their keys
      */

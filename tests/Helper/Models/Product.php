@@ -9,15 +9,11 @@ use Plank\Contentable\Concerns\HasLayouts;
 use Plank\Contentable\Contracts\Contentable;
 use Plank\Contentable\Contracts\Layoutable;
 
-class Page extends Model implements Contentable, Layoutable
+class Product extends Model implements Contentable, Layoutable
 {
     use HasContent;
     use HasFactory;
     use HasLayouts;
 
     protected $guarded = ['id'];
-
-    protected array $excludedLayouts = [
-        'holidays',
-    ];
 }

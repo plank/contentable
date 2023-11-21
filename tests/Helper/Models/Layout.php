@@ -3,6 +3,7 @@
 namespace Plank\Contentable\Tests\Helper\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Plank\Contentable\Enums\LayoutType;
 use Plank\Contentable\Models\Layout as PackageLayout;
 
 class Layout extends PackageLayout
@@ -14,6 +15,7 @@ class Layout extends PackageLayout
     protected $guarded = ['id'];
 
     protected $casts = [
+        'type' => LayoutType::class,
         'meta' => 'json',
     ];
 }

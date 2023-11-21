@@ -9,7 +9,7 @@ use Plank\Contentable\Concerns\HasLayouts;
 use Plank\Contentable\Contracts\Contentable;
 use Plank\Contentable\Contracts\Layoutable;
 
-class Page extends Model implements Contentable, Layoutable
+class Post extends Model implements Contentable, Layoutable
 {
     use HasContent;
     use HasFactory;
@@ -17,7 +17,5 @@ class Page extends Model implements Contentable, Layoutable
 
     protected $guarded = ['id'];
 
-    protected array $excludedLayouts = [
-        'holidays',
-    ];
+    protected bool $globalLayouts = false;
 }

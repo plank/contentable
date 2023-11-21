@@ -53,7 +53,7 @@ function setInertiaPath(string $path = ''): void
 
 function clearInertiaPath(): void
 {
-    $target = resource_path('js/Pages');
+    $target = resource_path('js'.DIRECTORY_SEPARATOR.'Pages');
 
     if (file_exists($target)) {
         if (is_link($target)) {

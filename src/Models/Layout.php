@@ -81,7 +81,7 @@ class Layout extends Model implements LayoutContract
 
     protected static function inertiaLayoutsFolder(Stringable $folder): string
     {
-        return str(resource_path('js/Pages'))
+        return str(resource_path('js'.DIRECTORY_SEPARATOR.'Pages'))
             ->rtrim(DIRECTORY_SEPARATOR)
             ->append(DIRECTORY_SEPARATOR)
             ->append($folder->studly());

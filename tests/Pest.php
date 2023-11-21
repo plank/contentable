@@ -6,13 +6,13 @@ uses(TestCase::class)->in(__DIR__);
 
 function setBladePath(string $path = ''): void
 {
-    $fixtures = str(realpath(__DIR__).'/Helper/Blade/')
+    $fixtures = str(realpath(__DIR__).DIRECTORY_SEPARATOR.'Helper'.DIRECTORY_SEPARATOR.'Blade'.DIRECTORY_SEPARATOR)
         ->append($path)
-        ->rtrim('/')
-        ->explode('/');
+        ->rtrim(DIRECTORY_SEPARATOR)
+        ->explode(DIRECTORY_SEPARATOR);
 
     $folder = $fixtures->pop();
-    $path = $fixtures->implode('/');
+    $path = $fixtures->implode(DIRECTORY_SEPARATOR);
 
     config()->set('view.paths', [$path]);
     config()->set('contentable.layouts.folder', $folder);
@@ -20,16 +20,16 @@ function setBladePath(string $path = ''): void
 
 function setInertiaPath(string $path = ''): void
 {
-    $fixtures = str(realpath(__DIR__).'/Helper/Inertia/')
+    $fixtures = str(realpath(__DIR__).DIRECTORY_SEPARATOR.'Helper'.DIRECTORY_SEPARATOR.'Inertia'.DIRECTORY_SEPARATOR)
         ->append($path)
-        ->rtrim('/')
-        ->explode('/');
+        ->rtrim(DIRECTORY_SEPARATOR)
+        ->explode(DIRECTORY_SEPARATOR);
 
     $folder = $fixtures->pop();
-    $path = $fixtures->implode('/');
+    $path = $fixtures->implode(DIRECTORY_SEPARATOR);
 
     $targetPath = resource_path('js');
-    $targetFolder = $targetPath.'/Pages';
+    $targetFolder = $targetPath.DIRECTORY_SEPARATOR.'Pages';
 
     if (! file_exists($targetPath)) {
         mkdir($targetPath, 0755, true);

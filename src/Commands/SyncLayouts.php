@@ -4,7 +4,6 @@ namespace Plank\Contentable\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
 use Plank\Contentable\Contracts\Layout;
 use Plank\Contentable\Contracts\Layoutable;

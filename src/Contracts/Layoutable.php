@@ -2,25 +2,37 @@
 
 namespace Plank\Contentable\Contracts;
 
+use Illuminate\Database\Eloquent\Collection;
+
+/**
+ * @property string $layout
+ */
 interface Layoutable
 {
     /**
-     * Retrieve a related Layout if one exists
+     * Retrieve the layout for the model
      */
     public function layout(): Layout;
 
     /**
-     * Determine the layout key for the model
-     */
-    public function layoutKey(): string;
-
-    /**
-     * Allow the model's class to define a layout for its index
+     * Allow the class to define a layout for its index
      */
     public static function indexLayout(): Layout;
 
     /**
-     * Determine the layout key for the model
+     * Get the Layout options as Key Value pairs
+     *
+     * @return Collection<Layout>
+     */
+    public function layouts(): Collection;
+
+    /**
+     * Define the key which is used to identify the Index layout for the Layoutable
      */
     public static function indexLayoutKey(): string;
+
+    /**
+     * Get the layout key for the class
+     */
+    public static function layoutKey(): string;
 }

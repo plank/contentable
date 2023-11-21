@@ -4,57 +4,86 @@ namespace Plank\Contentable\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Stringable;
 use Plank\Contentable\Contracts\Layout as LayoutContract;
+use Plank\Contentable\Enums\LayoutType;
+use Plank\Contentable\Enums\LayoutMode;
 
 class Layout extends Model implements LayoutContract
 {
     use HasFactory;
 
-    protected $guarded = ['id'];
+    protected $guarded = [];
 
-    /**
-     * {@inheritDoc}
-     */
-    public function layoutKey(): string
+    protected $casts = [
+        'type' => LayoutType::class,
+    ];
+
+    protected $attributes = [
+        'type' => LayoutType::Custom,
+    ];
+
+    public static function getLayoutKeyColumn(): string
     {
-        return $this->getAttribute(static::getLayoutKeyName());
+        return 'key';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public static function getLayoutKeyName(): string
+    public static function getNameColumn(): string
     {
-        return 'identifier';
+        return 'name';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function bladeTemplate(): string
+    public static function getTypeColumn(): string
     {
-        $key = str($this->layoutKey())
-            ->prepend('layouts.')
-            ->replace('/', '.')
-            ->explode('.')
-            ->map(fn ($part) => (string) str($part)->snake())
-            ->implode('.');
-
-        return $key;
+        return 'type';
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public function inertiaComponent(): string
+    public static function getLayoutableColumn(): string
     {
-        $key = str($this->layoutKey())
-            ->trim('/')
-            ->replace('/', '.')
-            ->explode('.')
-            ->map(fn ($part) => (string) str($part)->studly())
-            ->implode('/');
+        return 'layoutable';
+    }
 
-        return $key;
+    public static function mode(): LayoutMode
+    {
+        return config()->get('contentable.layouts.mode');
+    }
+
+    public static function extension(): string
+    {
+        return static::mode()->value;
+    }
+
+    public static function separator(): string
+    {
+        return match(static::mode()) {
+            LayoutMode::Blade => '.',
+            default => '/',
+        };
+    }
+
+    public static function folder(): string
+    {
+        $folder = str(config()->get('contentable.layouts.folder'));
+
+        return match (static::mode()) {
+            LayoutMode::Blade => static::bladeLayoutsFolder($folder),
+            default => static::inertiaLayoutsFolder($folder),
+        };
+    }
+
+    protected static function bladeLayoutsFolder(Stringable $folder): string
+    {
+        return str(config()->get('view.paths')[0])
+            ->rtrim(DIRECTORY_SEPARATOR)
+            ->append(DIRECTORY_SEPARATOR)
+            ->append($folder->lower());
+    }
+
+    protected static function inertiaLayoutsFolder(Stringable $folder): string
+    {
+        return str(resource_path('js/Pages'))
+            ->rtrim(DIRECTORY_SEPARATOR)
+            ->append(DIRECTORY_SEPARATOR)
+            ->append($folder->studly());
     }
 }

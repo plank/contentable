@@ -90,7 +90,7 @@ trait HasLayouts
     {
         $layoutModel = static::layoutModel();
 
-        return (new $layoutModel)->getKey();
+        return (new $layoutModel)->getKeyName();
     }
 
     /**

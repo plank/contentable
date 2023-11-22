@@ -76,7 +76,7 @@ function clearInertiaPath(): void
 
 function osSafeUnlink(string $path): bool
 {
-    if (!is_link($path)) {
+    if (! is_link($path)) {
         return false; // Not a symlink, handle error or do nothing
     }
 

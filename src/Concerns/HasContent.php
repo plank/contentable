@@ -9,7 +9,7 @@ trait HasContent
 {
     public function contents(): MorphMany
     {
-        $contentModel = config('contentable.model');
+        $contentModel = config('contentable.content.model');
 
         return $this->morphMany($contentModel, 'contentable');
     }

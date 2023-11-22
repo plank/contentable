@@ -18,7 +18,8 @@ class LayoutFactory extends Factory
         }
 
         return [
-            'identifier' => implode('.', $this->faker->words(2)),
+            'key' => $key = implode('.', $this->faker->words(2)),
+            'name' => (string) str($key)->replace('.', ' ')->title(),
             'meta' => $meta,
         ];
     }

@@ -28,7 +28,7 @@ trait CanRender
 
     public function content(): MorphOne
     {
-        $contentModel = config('contentable.model');
+        $contentModel = config('contentable.content.model');
 
         return $this->morphOne($contentModel, 'renderable');
     }

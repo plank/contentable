@@ -10,7 +10,10 @@ return new class extends Migration
     {
         Schema::create('layouts', function (Blueprint $table) {
             $table->id();
-            $table->string('identifier')->unique()->nullable();
+            $table->string('key')->unique();
+            $table->string('name')->unique();
+            $table->string('layoutable')->nullable();
+            $table->string('type');
             $table->json('meta')->nullable();
             $table->timestamps();
         });

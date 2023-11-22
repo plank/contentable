@@ -61,10 +61,7 @@
         "laravel": {
             "providers": [
                 "Plank\\Contentable\\ContentableServiceProvider"
-            ],
-            "aliases": {
-                "Contentable": "Plank\\Contentable\\Facades\\Contentable"
-            }
+            ]
         }
     },
     "minimum-stability": "dev",

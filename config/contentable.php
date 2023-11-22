@@ -1,12 +1,15 @@
 <?php
 
 return [
-
-    'model' => \Plank\Contentable\Models\Content::class,
-    'cache' => [
-        'ttl' => 10800,
+    'content' => [
+        'model' => \Plank\Contentable\Models\Content::class,
     ],
     'layouts' => [
+        'folder' => 'layouts',
+        'mode' => \Plank\Contentable\Enums\LayoutMode::Blade,
         'model' => \Plank\Contentable\Models\Layout::class,
+    ],
+    'cache' => [
+        'ttl' => 10800,
     ],
 ];

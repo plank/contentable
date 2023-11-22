@@ -2,6 +2,7 @@
 
 namespace Plank\Contentable;
 
+use Plank\Contentable\Commands\SyncLayouts;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 
@@ -11,6 +12,9 @@ class ContentableServiceProvider extends PackageServiceProvider
     {
         $package
             ->name('contentable')
+            ->hasCommands([
+                SyncLayouts::class,
+            ])
             ->hasConfigFile()
             ->hasMigrations([
                 'create_contents_table',

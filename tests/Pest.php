@@ -6,7 +6,14 @@ uses(TestCase::class)->in(__DIR__);
 
 function setBladePath(string $path = ''): void
 {
-    $fixtures = str(realpath(__DIR__).DIRECTORY_SEPARATOR.'Helper'.DIRECTORY_SEPARATOR.'Blade'.DIRECTORY_SEPARATOR)
+    $dir = realpath(__DIR__)
+        .DIRECTORY_SEPARATOR
+        .'Helper'
+        .DIRECTORY_SEPARATOR
+        .'Blade'
+        .DIRECTORY_SEPARATOR;
+
+    $fixtures = str($dir)
         ->append($path)
         ->rtrim(DIRECTORY_SEPARATOR)
         ->explode(DIRECTORY_SEPARATOR);
@@ -20,7 +27,14 @@ function setBladePath(string $path = ''): void
 
 function setInertiaPath(string $path = ''): void
 {
-    $fixtures = str(realpath(__DIR__).DIRECTORY_SEPARATOR.'Helper'.DIRECTORY_SEPARATOR.'Inertia'.DIRECTORY_SEPARATOR)
+    $dir = realpath(__DIR__)
+        .DIRECTORY_SEPARATOR
+        .'Helper'
+        .DIRECTORY_SEPARATOR
+        .'Inertia'
+        .DIRECTORY_SEPARATOR;
+
+    $fixtures = str($dir)
         ->append($path)
         ->rtrim(DIRECTORY_SEPARATOR)
         ->explode(DIRECTORY_SEPARATOR);
@@ -56,10 +70,27 @@ function clearInertiaPath(): void
     $target = resource_path('js'.DIRECTORY_SEPARATOR.'Pages');
 
     if (file_exists($target)) {
-        if (is_link($target)) {
-            unlink($target);
+        osSafeUnlink($target);
+    }
+}
+
+function osSafeUnlink(string $path): bool
+{
+    if (!is_link($path)) {
+        return false; // Not a symlink, handle error or do nothing
+    }
+
+    // Check if the symlink points to a directory
+    if (is_dir(readlink($path))) {
+        // On Windows, use rmdir for directories
+        if (strtoupper(substr(PHP_OS, 0, 3)) === 'WIN') {
+            return rmdir($path);
         } else {
-            rmdir($target);
+            // On Unix/Linux/Mac, unlink works for directory symlinks
+            return unlink($path);
         }
+    } else {
+        // For files, just use unlink
+        return unlink($path);
     }
 }

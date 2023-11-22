@@ -2,7 +2,9 @@
 
 use Plank\Contentable\Enums\LayoutType;
 use Plank\Contentable\Tests\Helper\Models\Layout;
+use Plank\Contentable\Tests\Helper\Models\Lesson;
 use Plank\Contentable\Tests\Helper\Models\Page;
+use Plank\Contentable\Tests\Helper\Models\Post;
 use Plank\Contentable\Tests\Helper\Models\Product;
 
 use function Pest\Laravel\artisan;
@@ -26,6 +28,16 @@ describe('It syncs Layouts for Blade', function () {
         expect($layout->type)->toBe(LayoutType::Global);
         expect($layout->layoutable)->toBeNull();
 
+        expect($layout = Layout::where('key', 'lessons.index')->first())->not->toBeNull();
+        expect($layout->name)->toBe('Lesson Index');
+        expect($layout->type)->toBe(LayoutType::Index);
+        expect($layout->layoutable)->toBe(Lesson::layoutKey());
+
+        expect($layout = Layout::where('key', 'lessons.show')->first())->not->toBeNull();
+        expect($layout->name)->toBe('Lesson Details');
+        expect($layout->type)->toBe(LayoutType::Show);
+        expect($layout->layoutable)->toBe(Lesson::layoutKey());
+
         expect($layout = Layout::where('key', 'pages.index')->first())->not->toBeNull();
         expect($layout->name)->toBe('Page Index');
         expect($layout->type)->toBe(LayoutType::Index);
@@ -41,6 +53,21 @@ describe('It syncs Layouts for Blade', function () {
         expect($layout->type)->toBe(LayoutType::Custom);
         expect($layout->layoutable)->toBe(Page::layoutKey());
 
+        expect($layout = Layout::where('key', 'posts.index')->first())->not->toBeNull();
+        expect($layout->name)->toBe('Post Index');
+        expect($layout->type)->toBe(LayoutType::Index);
+        expect($layout->layoutable)->toBe(Post::layoutKey());
+
+        expect($layout = Layout::where('key', 'posts.show')->first())->not->toBeNull();
+        expect($layout->name)->toBe('Post Details');
+        expect($layout->type)->toBe(LayoutType::Show);
+        expect($layout->layoutable)->toBe(Post::layoutKey());
+
+        expect($layout = Layout::where('key', 'posts.featured')->first())->not->toBeNull();
+        expect($layout->name)->toBe('Featured Post');
+        expect($layout->type)->toBe(LayoutType::Custom);
+        expect($layout->layoutable)->toBe(Post::layoutKey());
+
         expect($layout = Layout::where('key', 'products.index')->first())->not->toBeNull();
         expect($layout->name)->toBe('Product Index');
         expect($layout->type)->toBe(LayoutType::Index);
@@ -55,6 +82,18 @@ describe('It syncs Layouts for Blade', function () {
         expect($layout->name)->toBe('Promo Product');
         expect($layout->type)->toBe(LayoutType::Custom);
         expect($layout->layoutable)->toBe(Product::layoutKey());
+    });
+
+    it('does not duplicate global and layoutable layouts when sync is re-run', function () {
+        artisan('contentable:sync')
+            ->assertExitCode(0);
+
+        expect(Layout::count())->toBe(13);
+
+        artisan('contentable:sync')
+            ->assertExitCode(0);
+
+        expect(Layout::count())->toBe(13);
     });
 
     it('does not delete missing global layouts on sync', function () {

@@ -20,12 +20,9 @@ trait HasLayouts
 {
     public function layout(): Layout
     {
-        $layoutModel = static::layoutModel();
-
-        $layout = $this->relatedLayout
-            ?? $layoutModel::query()
-                ->where($layoutModel::getLayoutKeyColumn(), $this->showLayoutKey())
-                ->first();
+        $layout = static::customizeableLayout()
+            ? $this->relatedLayout ?? static::showLayout()
+            : static::showLayout();
 
         if ($layout === null) {
             throw MissingLayoutException::show(static::class, $this->getKey());
@@ -34,13 +31,16 @@ trait HasLayouts
         return $layout;
     }
 
-    protected function defaultLayoutKey(): string
+    /**
+     * Get the default show layout for the Model
+     */
+    public static function showLayout(): ?Layout
     {
         $layoutModel = static::layoutModel();
 
-        return str(static::layoutKey())
-            ->append($layoutModel::separator())
-            ->append($this->layoutKey());
+        return $layoutModel::query()
+                ->where($layoutModel::getLayoutKeyColumn(), static::showLayoutKey())
+                ->first();
     }
 
     public static function indexLayout(): Layout
@@ -60,6 +60,10 @@ trait HasLayouts
 
     public static function layouts(): Collection
     {
+        if (!static::customizeableLayout()) {
+            return new Collection();
+        }
+
         $layoutModel = static::layoutModel();
 
         return $layoutModel::query()
@@ -206,5 +210,17 @@ trait HasLayouts
         }
 
         return [];
+    }
+
+    /**
+     * Exclude specific layouts by their keys
+     */
+    protected static function customizeableLayout(): bool
+    {
+        if (property_exists(static::class, 'customizeableLayout')) {
+            return static::$customizeableLayout;
+        }
+
+        return true;
     }
 }

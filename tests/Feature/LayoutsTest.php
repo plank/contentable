@@ -4,6 +4,7 @@ use Plank\Contentable\Enums\LayoutMode;
 use Plank\Contentable\Enums\LayoutType;
 use Plank\Contentable\Exceptions\MissingLayoutException;
 use Plank\Contentable\Tests\Helper\Models\Layout;
+use Plank\Contentable\Tests\Helper\Models\Lesson;
 use Plank\Contentable\Tests\Helper\Models\Page;
 use Plank\Contentable\Tests\Helper\Models\Post;
 use Plank\Contentable\Tests\Helper\Models\Product;
@@ -206,5 +207,36 @@ describe('It returns layout options for blade', function () {
         expect($layout->name)->toBe('Promo Product');
         expect($layout->type)->toBe(LayoutType::Custom);
         expect($layout->layoutable)->toBe(Product::layoutKey());
+    });
+});
+
+describe('It returns the default layouts for non-customizeable Layoutables with Inertia', function () {
+    beforeEach(function () {
+        config()->set('contentable.layouts.mode', LayoutMode::InertiaJsx);
+        setInertiaPath('Sync');
+
+        artisan('contentable:sync')->assertExitCode(0);
+    });
+
+    it('returns the default show layout for a non-customizeable layoutable', function () {
+        $lesson = Lesson::factory()->create();
+
+        expect($layout = $lesson->layout())->not->toBeNull();
+        expect($layout->name)->toBe('Lesson Details');
+        expect($layout->type)->toBe(LayoutType::Show);
+        expect($layout->layoutable)->toBe(Lesson::layoutKey());
+    }); 
+
+    it('returns the default index layout for a non-customizeable layoutable', function () {
+        expect($layout = Lesson::indexLayout())->not->toBeNull();
+        expect($layout->name)->toBe('Lesson Index');
+        expect($layout->type)->toBe(LayoutType::Index);
+        expect($layout->layoutable)->toBe(Lesson::layoutKey());
+    });
+
+    it('returns empty layout options for a non-customizeable layoutable', function () {
+        $lesson = Lesson::factory()->create();
+
+        expect($lesson->layouts())->toHaveCount(0);
     });
 });

@@ -88,7 +88,9 @@ trait HasLayouts
      */
     protected function layoutOwnerKey(): string
     {
-        return 'id';
+        $layoutModel = static::layoutModel();
+
+        return (new $layoutModel)->getKey();
     }
 
     /**

@@ -42,16 +42,16 @@ trait HasLayouts
         return $layout;
     }
 
-    public function layouts(): Collection
+    public static function layouts(): Collection
     {
         $layoutModel = static::layoutModel();
 
         return $layoutModel::query()
             ->where($layoutModel::getLayoutableColumn(), static::layoutKey())
-            ->when($this->globalLayouts(), function (Builder $query) use ($layoutModel) {
+            ->when(static::globalLayouts(), function (Builder $query) use ($layoutModel) {
                 $query->orWhere(function (Builder $query) use ($layoutModel) {
                     $query->where($layoutModel::getTypeColumn(), LayoutType::Global)
-                        ->whereNotIn($layoutModel::getLayoutKeyColumn(), $this->excludedLayouts());
+                        ->whereNotIn($layoutModel::getLayoutKeyColumn(), static::excludedLayouts());
                 });
             })
             ->get()
@@ -146,10 +146,10 @@ trait HasLayouts
     /**
      * Determine if the Layoutable uses global layouts
      */
-    protected function globalLayouts(): bool
+    protected static function globalLayouts(): bool
     {
-        if (property_exists($this, 'globalLayouts')) {
-            return $this->globalLayouts;
+        if (property_exists(static::class, 'globalLayouts')) {
+            return static::$globalLayouts;
         }
 
         return true;
@@ -158,10 +158,10 @@ trait HasLayouts
     /**
      * Exclude specific layouts by their keys
      */
-    protected function excludedLayouts(): array
+    protected static function excludedLayouts(): array
     {
-        if (property_exists($this, 'excludedLayouts')) {
-            return $this->excludedLayouts;
+        if (property_exists(static::class, 'excludedLayouts')) {
+            return static::$excludedLayouts;
         }
 
         return [];

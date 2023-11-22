@@ -17,7 +17,7 @@ class Page extends Model implements Contentable, Layoutable
 
     protected $guarded = ['id'];
 
-    protected array $excludedLayouts = [
+    protected static array $excludedLayouts = [
         'holidays',
     ];
 }

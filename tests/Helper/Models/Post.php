@@ -17,5 +17,5 @@ class Post extends Model implements Contentable, Layoutable
 
     protected $guarded = ['id'];
 
-    protected bool $globalLayouts = false;
+    protected static bool $globalLayouts = false;
 }

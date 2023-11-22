@@ -24,7 +24,7 @@ interface Layoutable
      *
      * @return Collection<Layout>
      */
-    public function layouts(): Collection;
+    public static function layouts(): Collection;
 
     /**
      * Define the key which is used to identify the Index layout for the Layoutable

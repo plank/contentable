@@ -39,8 +39,8 @@ trait HasLayouts
         $layoutModel = static::layoutModel();
 
         return $layoutModel::query()
-                ->where($layoutModel::getLayoutKeyColumn(), static::showLayoutKey())
-                ->first();
+            ->where($layoutModel::getLayoutKeyColumn(), static::showLayoutKey())
+            ->first();
     }
 
     public static function indexLayout(): Layout
@@ -60,7 +60,7 @@ trait HasLayouts
 
     public static function layouts(): Collection
     {
-        if (!static::customizeableLayout()) {
+        if (! static::customizeableLayout()) {
             return new Collection();
         }
 

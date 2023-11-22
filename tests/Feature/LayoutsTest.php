@@ -225,7 +225,7 @@ describe('It returns the default layouts for non-customizeable Layoutables with 
         expect($layout->name)->toBe('Lesson Details');
         expect($layout->type)->toBe(LayoutType::Show);
         expect($layout->layoutable)->toBe(Lesson::layoutKey());
-    }); 
+    });
 
     it('returns the default index layout for a non-customizeable layoutable', function () {
         expect($layout = Lesson::indexLayout())->not->toBeNull();

@@ -20,11 +20,27 @@ trait HasLayouts
 {
     public function layout(): Layout
     {
-        if ($this->relatedLayout === null) {
+        $layoutModel = static::layoutModel();
+
+        $layout = $this->relatedLayout
+            ?? $layoutModel::query()
+                ->where($layoutModel::getLayoutKeyColumn(), $this->showLayoutKey())
+                ->first();
+
+        if ($layout === null) {
             throw MissingLayoutException::show(static::class, $this->getKey());
         }
 
-        return $this->relatedLayout;
+        return $layout;
+    }
+
+    protected function defaultLayoutKey(): string
+    {
+        $layoutModel = static::layoutModel();
+
+        return str(static::layoutKey())
+            ->append($layoutModel::separator())
+            ->append($this->layoutKey());
     }
 
     public static function indexLayout(): Layout
@@ -132,6 +148,31 @@ trait HasLayouts
         return match ($layoutModel::mode()) {
             LayoutMode::Blade => 'index',
             default => 'Index',
+        };
+    }
+
+    /**
+     * The default index layout key of the Model
+     */
+    public static function showLayoutKey(): string
+    {
+        $layoutModel = static::layoutModel();
+
+        return str(static::layoutKey())
+            ->append($layoutModel::separator())
+            ->append(static::showKey());
+    }
+
+    /**
+     * The key we will use for the default index layouts
+     */
+    protected static function showKey(): string
+    {
+        $layoutModel = static::layoutModel();
+
+        return match ($layoutModel::mode()) {
+            LayoutMode::Blade => 'show',
+            default => 'Show',
         };
     }
 

@@ -41,6 +41,15 @@ describe('It returns Blade Layouts for Layoutables', function () {
         expect($layout->layoutable)->toBeNull();
     });
 
+    it('can return the default layoutable for a Blade Layout', function () {
+        $page = Page::factory()->create();
+
+        expect($layout = $page->layout())->not->toBeNull();
+        expect($layout->name)->toBe('Page Details');
+        expect($layout->type)->toBe(LayoutType::Show);
+        expect($layout->layoutable)->toBe(Page::layoutKey());
+    });
+
     it('can return a layoutable Blade Layout', function () {
         $layout = Layout::query()
             ->where('key', 'pages.landing')

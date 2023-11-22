@@ -50,11 +50,7 @@ function setInertiaPath(string $path = ''): void
     }
 
     if (file_exists($targetFolder)) {
-        if (is_link($targetFolder)) {
-            unlink($targetFolder);
-        } else {
-            rmdir($targetFolder);
-        }
+        osSafeUnlink($targetFolder);
     }
 
     symlink(

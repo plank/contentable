@@ -10,7 +10,7 @@ return [
         'model' => \Plank\Contentable\Models\Layout::class,
         'sync' => [
             'excluded' => [],
-        ]
+        ],
     ],
     'cache' => [
         'ttl' => 10800,

@@ -84,6 +84,24 @@ describe('It syncs Layouts for Blade', function () {
         expect($layout->layoutable)->toBe(Product::layoutKey());
     });
 
+    it('can exclude Layouts from being created during sync', function () {
+        config()->set('contentable.layouts.sync.excluded', [
+            'products.*',
+            'pages.landing',
+            'holidays',
+        ]);
+
+        artisan('contentable:sync')
+            ->assertExitCode(0);
+
+        expect(Layout::count())->toBe(8);
+        expect(Layout::where('key', 'products.index')->exists())->toBeFalse();
+        expect(Layout::where('key', 'products.show')->exists())->toBeFalse();
+        expect(Layout::where('key', 'products.promo')->exists())->toBeFalse();
+        expect(Layout::where('key', 'pages.landing')->exists())->toBeFalse();
+        expect(Layout::where('key', 'holidays')->exists())->toBeFalse();
+    });
+
     it('does not duplicate global and layoutable layouts when sync is re-run', function () {
         artisan('contentable:sync')
             ->assertExitCode(0);

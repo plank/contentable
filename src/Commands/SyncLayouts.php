@@ -4,7 +4,9 @@ namespace Plank\Contentable\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Stringable;
 use Plank\Contentable\Contracts\Layout;
 use Plank\Contentable\Contracts\Layoutable;
 use Plank\Contentable\Enums\LayoutType;
@@ -33,10 +35,17 @@ class SyncLayouts extends Command
     protected function globalKeys(): array
     {
         $layoutModel = static::layoutModel();
+        $excluded = config()->get('contentable.layouts.sync.excluded');
 
-        return array_map(function (SplFileInfo $layout) use ($layoutModel): string {
-            return $layout->getBasename($layoutModel::extension());
-        }, File::files($layoutModel::folder()));
+        return Collection::wrap(File::files($layoutModel::folder()))
+            ->map(function (SplFileInfo $layout) use ($layoutModel) {
+                return $layout->getBasename($layoutModel::extension());
+            })
+            ->reject(function (string $key) use ($excluded) {
+                return str($key)->contains($excluded);
+            })
+            ->values()
+            ->all();
     }
 
     /**
@@ -45,27 +54,50 @@ class SyncLayouts extends Command
     protected function layoutableKeys(): array
     {
         $layoutModel = static::layoutModel();
-
         $keys = [];
 
         foreach (File::directories($layoutModel::folder()) as $path) {
+            if ($this->pathIsExcludedByWildcard($path)) {
+                continue;
+            }
+
             $keys = array_merge($keys, $this->keysForPath($path));
         }
 
         return $keys;
     }
 
+    protected function pathIsExcludedByWildcard(string $path): bool
+    {
+        $layoutModel = static::layoutModel();
+
+        $excluded = Collection::wrap(config()->get('contentable.layouts.sync.excluded'))
+            ->filter(fn (string $wildcard) => str($wildcard)->endsWith('*'))
+            ->map(fn (string $wildcard) => str($wildcard)->before($layoutModel::separator()));
+
+        return str($path)
+            ->after($layoutModel::folder().DIRECTORY_SEPARATOR)
+            ->before(DIRECTORY_SEPARATOR)
+            ->contains($excluded);
+    }
+
     protected function keysForPath(string $path): array
     {
+        $excluded = config()->get('contentable.layouts.sync.excluded');
         $layoutModel = static::layoutModel();
 
         $key = (string) str($path)->afterLast(DIRECTORY_SEPARATOR);
 
-        return array_map(function (SplFileInfo $layout) use ($layoutModel, $key): string {
-            return str($key)
-                ->append($layoutModel::separator())
-                ->append($layout->getBasename($layoutModel::extension()));
-        }, File::files($path));
+        return Collection::wrap(File::files($path))
+            ->map(function (SplFileInfo $layout) use ($layoutModel, $key) {
+                return str($key)
+                    ->append($layoutModel::separator())
+                    ->append($layout->getBasename($layoutModel::extension()));
+            })
+            ->reject(fn (Stringable $key) => $key->contains($excluded))
+            ->map(fn (Stringable $key) => (string) $key)
+            ->values()
+            ->all();
     }
 
     protected function ensureGlobalLayoutExists(string $key): void

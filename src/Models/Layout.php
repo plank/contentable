@@ -76,7 +76,8 @@ class Layout extends Model implements LayoutContract
         return str(config()->get('view.paths')[0])
             ->rtrim(DIRECTORY_SEPARATOR)
             ->append(DIRECTORY_SEPARATOR)
-            ->append($folder->lower());
+            ->append($folder->lower())
+            ->rtrim(DIRECTORY_SEPARATOR);
     }
 
     protected static function inertiaLayoutsFolder(Stringable $folder): string
@@ -84,6 +85,7 @@ class Layout extends Model implements LayoutContract
         return str(resource_path('js'.DIRECTORY_SEPARATOR.'Pages'))
             ->rtrim(DIRECTORY_SEPARATOR)
             ->append(DIRECTORY_SEPARATOR)
-            ->append($folder->studly());
+            ->append($folder->studly())
+            ->rtrim(DIRECTORY_SEPARATOR);
     }
 }

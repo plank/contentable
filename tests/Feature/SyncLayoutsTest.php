@@ -54,17 +54,17 @@ describe('It syncs Layouts for Blade', function () {
         expect($layout->type)->toBe(LayoutType::Custom);
         expect($layout->layoutable)->toBe(Page::layoutKey());
 
-        expect($layout = Layout::where('key', 'Posts.Index')->first())->not->toBeNull();
+        expect($layout = Layout::where('key', 'posts.index')->first())->not->toBeNull();
         expect($layout->name)->toBe('Post Index');
         expect($layout->type)->toBe(LayoutType::Index);
         expect($layout->layoutable)->toBe(Post::layoutKey());
 
-        expect($layout = Layout::where('key', 'Posts.Show')->first())->not->toBeNull();
+        expect($layout = Layout::where('key', 'posts.show')->first())->not->toBeNull();
         expect($layout->name)->toBe('Post Details');
         expect($layout->type)->toBe(LayoutType::Show);
         expect($layout->layoutable)->toBe(Post::layoutKey());
 
-        expect($layout = Layout::where('key', 'Posts.Featured')->first())->not->toBeNull();
+        expect($layout = Layout::where('key', 'posts.featured')->first())->not->toBeNull();
         expect($layout->name)->toBe('Featured Post');
         expect($layout->type)->toBe(LayoutType::Custom);
         expect($layout->layoutable)->toBe(Post::layoutKey());

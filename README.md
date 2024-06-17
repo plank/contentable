@@ -11,6 +11,13 @@
 
 ⚠️ This package is currently in development and is not ready for production use. ⚠️
 
+This package allows for models to be built up dynamically by attaching `Content` to it. It's intended use is to allow for 
+creating a module system that plays nicely with Laravel Nova (via Repeaters, or other block editing systems) to create user
+defined pages. 
+
+Considerations have been made to keep this package compatible with other packages in the Plank ecosystem such as [Snapshots](https://github.com/plank/snapshots).
+It also has been architected to allow for explicit linking between modules and other entities within an application.  
+
 ## Table of Contents
 
 - [Installation](#installation)
@@ -32,16 +39,13 @@ You can install the package via composer:
 composer require plank/contentable
 ```
 
-You can use the package's install command to complete the installation:
-
-```bash
-php artisan contentable:install
-```
-
 ## Quick Start
 
 Once the installation has completed, to begin using the package:
 
+1. Add the `HasContent` trait and `Contentable` interface to any model you'd like to attach content too.
+2. Add the `CanRender` trait and `Renderable` interface to any models that will act as "Modules".
+3. Implement the missing `Renderable` interface methods, specifically the `renderHtml()` method. Optionally add a `$renderableFields` class property, listing all fields that should be accessed by the module.
 
 ## Configuration
 
@@ -54,6 +58,7 @@ php artisan vendor:publish --tag=contentable-config
 &nbsp;
 
 ## Usage
+
 
 ### Layouts
 

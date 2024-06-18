@@ -53,18 +53,130 @@ The package's configuration file is located at `config/contentable.php`. If you 
 
 ```bash
 php artisan vendor:publish --tag=contentable-config
+# Be sure to run any associated migrations
+php artisan migrate
 ```
 
 &nbsp;
 
 ## Usage
 
+### Building a Module system
+
+Contentable's main purpose is to ease the building of a page builder style experience while maintaining explicit relationships
+between `Renderable` models and any other arbitrary models within the application. This enables easily building things like
+"Callout" modules, that can link to a concrete record in the database.
+
+#### Define Modules
+
+To take advantage of the above approach, any modules that are distinct from each other must be defined as their own models.
+Eg, you might define a simple "Text" module (that is, a section on a page that displays a title and body text) like so:
+
+```php
+<?php
+
+namespace App\Models;
+
+use App\Models\Contracts\Renderable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Plank\Contentable\Concerns\CanRender;
+
+class TextModule extends Model implements Renderable
+{
+    use CanRender;
+    use HasFactory;
+    
+    protected $guarded = ['id'];
+
+    protected array $renderableFields = ['title', 'body'];
+    
+    public function renderHtml(): string
+    {
+        return "<h2>{$this->title}</h2>" +
+                "<p>{$this->body}</p>";
+    }
+}
+```
+
+Of course, associated migrations, factories, etc... would need to be generated as well.
+
+#### Define Contentables
+
+Once modules have been created, though, they can then be attached to some `Contentable`, such as a `Page` model
+eg:
+```php
+<?php
+
+namespace App\Models;
+
+use App\Models\Concerns\HasContent;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Plank\Contentable\Contracts\Contentable;
+
+
+class Page extends Model implements Contentable
+{
+    use HasContent;
+    use HasFactory;
+
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */
+    protected $guarded = ['id'];
+    
+    /**
+     * Get the route key for the model.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
+}
+```
+
+Such a page can now have any number of modules attached to it, and rendered. This allows most Laravel oriented content management
+systems to simply relate a module to a `Page` via a (polymorphic) relationship field. 
+
+You can even get creative and use repeater style fields to build up a page's content in a more editorial fashion!
 
 ### Layouts
+Layouts enable the user to control the "window dressing" around the modules that are laid out on a page. Effectively, a
+layout represents the template used by a `Contentable` model (or any other model for that matter).
+
+Layouts natively support Blade templates and Inertia pages.
+
+Layouts are created automatically when Blade / JS files are created in the appropriate locations. 
+By default, these locations are `resources/views/layouts` for Blade templates or `resources/js/Pages/Layouts` for Inertia based systems.
+
+Calling the function `php artisan contentable:sync` will scan these directories 
 
 ### Layoutables
 
-### LayoutData
+Typically, any model with that fulfils the `Conentable` contract will also want to be `Layoutable`. This allows
+users to have full control over the display modes on a page. The above `Page` model can be extended as so to add Layout functionality:
+
+```php
+use Illuminate\Database\Eloquent\Model;
+use App\Models\Concerns\HasLayouts;
+use Plank\Contentable\Contracts\Contentable;
+use Plank\Contentable\Contracts\Layoutable;
+
+class Page extends Model implements Contentable, Layoutable
+{
+    // ...
+    use HasLayouts;
+    
+    /**
+     * (Optional: Allows for layouts to be model specific)
+     * Restrict the Page layouts to ones strictly in the Pages folder
+     */
+    protected static $globalLayouts = false;
+}
+```
 
 &nbsp;
 

@@ -177,6 +177,15 @@ class Page extends Model implements Contentable, Layoutable
     protected static $globalLayouts = false;
 }
 ```
+Contentable exposes a function that make it easy to have a particular instance of a model use its set layout. Simply call `->layout()` on it, and pass that to the chosen render function.
+
+eg: 
+```php
+public function show(Page $page): \Illuminate\View\View
+{
+    return view($page->layout())->with(compact('page'));
+}
+```
 
 &nbsp;
 

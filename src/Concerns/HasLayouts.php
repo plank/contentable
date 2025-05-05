@@ -61,7 +61,7 @@ trait HasLayouts
     public static function layouts(): Collection
     {
         if (! static::customizeableLayout()) {
-            return new Collection();
+            return new Collection;
         }
 
         $layoutModel = static::layoutModel();

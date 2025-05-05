@@ -21,7 +21,7 @@ class Content extends Model implements ContentInterface
     protected static function boot()
     {
         static::saved(function (ContentInterface $content) {
-            $content->contentable->clearCache();
+            $content->contentable?->clearCache();
         });
 
         parent::boot();

@@ -10,7 +10,7 @@ use Plank\Contentable\Tests\Helper\Models\Product;
 
 use function Pest\Laravel\artisan;
 
-describe('It syncs Layouts for Blade', function () {
+describe('Layouts for Blade', function () {
     beforeEach(function () {
         setBladePath('sync');
     });
@@ -143,7 +143,7 @@ describe('It syncs Layouts for Blade', function () {
     });
 });
 
-describe('It syncs Layouts for Inertia', function () {
+describe('Layouts for Inertia', function () {
     beforeEach(function () {
         config()->set('contentable.layouts.mode', LayoutMode::InertiaJsx);
         setInertiaPath('Sync');

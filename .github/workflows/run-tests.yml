@@ -65,11 +65,10 @@ jobs:
       - name: Install dependencies
         run: composer update --${{ matrix.stability }} --prefer-dist --no-interaction
 
-      - name: Test & publish code coverage
-        uses: paambaati/codeclimate-action@v5.0.0
-        env:
-          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+      - name: Run Tests with coverage
+        run: composer test-coverage
+
+      - uses: qltysh/qlty-action/coverage@v1
         with:
-          coverageCommand: composer test-coverage
-          coverageLocations: |
-            ${{github.workspace}}/build/logs/clover.xml:clover
+          token: ${{ secrets.QLTY_COVERAGE_TOKEN }}
+          files: build/coverage/clover.xml

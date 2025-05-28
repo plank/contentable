@@ -11,7 +11,7 @@ use Plank\Contentable\Tests\Helper\Models\Product;
 
 use function Pest\Laravel\artisan;
 
-describe('It throws errors when layouts do not exist', function () {
+describe('errors regarding layouts', function () {
     it('throws an error when the Detail layout doesnt exist', function () {
         Product::factory()->create()->layout();
     })->throws(MissingLayoutException::class);
@@ -21,7 +21,7 @@ describe('It throws errors when layouts do not exist', function () {
     })->throws(MissingLayoutException::class);
 });
 
-describe('It returns Blade Layouts for Layoutables', function () {
+describe('Layoutables return Blade layouts', function () {
     beforeEach(function () {
         setBladePath('sync');
         artisan('contentable:sync')->assertExitCode(0);
@@ -74,7 +74,7 @@ describe('It returns Blade Layouts for Layoutables', function () {
     });
 });
 
-describe('It returns Inertia Layouts for Layoutables', function () {
+describe('Layoutables return Inertia Layouts', function () {
     beforeEach(function () {
         config()->set('contentable.layouts.mode', LayoutMode::InertiaJsx);
         setInertiaPath('Sync');
@@ -120,7 +120,7 @@ describe('It returns Inertia Layouts for Layoutables', function () {
     });
 });
 
-describe('It returns layout options for blade', function () {
+describe('layout options for blade', function () {
     beforeEach(function () {
         setBladePath('sync');
         artisan('contentable:sync')->assertExitCode(0);
@@ -210,7 +210,7 @@ describe('It returns layout options for blade', function () {
     });
 });
 
-describe('It returns the default layouts for non-customizeable Layoutables with Inertia', function () {
+describe('non-customizeable Layoutables with Inertia returns the default layouts', function () {
     beforeEach(function () {
         config()->set('contentable.layouts.mode', LayoutMode::InertiaJsx);
         setInertiaPath('Sync');

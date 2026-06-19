@@ -1,13 +1,17 @@
 <?php
 
+use Plank\Contentable\Enums\LayoutMode;
+use Plank\Contentable\Models\Content;
+use Plank\Contentable\Models\Layout;
+
 return [
     'content' => [
-        'model' => \Plank\Contentable\Models\Content::class,
+        'model' => Content::class,
     ],
     'layouts' => [
         'folder' => 'layouts',
-        'mode' => \Plank\Contentable\Enums\LayoutMode::Blade,
-        'model' => \Plank\Contentable\Models\Layout::class,
+        'mode' => LayoutMode::Blade,
+        'model' => Layout::class,
         'sync' => [
             'excluded' => [],
         ],

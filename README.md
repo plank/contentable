@@ -9,8 +9,6 @@
 
 # Laravel Contentable
 
-⚠️ This package is currently in development and is not ready for production use. ⚠️
-
 This package allows for models to be built up dynamically by attaching `Content` to it. It's intended use is to allow for 
 creating a module system that plays nicely with Laravel Nova (via Repeaters, or other block editing systems) to create user
 defined pages. 
